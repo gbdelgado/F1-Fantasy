@@ -30,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements APICallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CookieManager.getInstance().removeAllCookies(null);
-        CookieManager.getInstance().flush();
-
         setContentView(R.layout.activity_main);
     }
 
@@ -41,6 +38,10 @@ public class MainActivity extends AppCompatActivity implements APICallback {
      * @param view
      */
     public void startLogin(View view) {
+        // clear any old cookies
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
+
         loginFragment = new LoginFragment();
         loginFragment.setContainerActivity(this);
         getSupportFragmentManager().beginTransaction()
@@ -49,7 +50,11 @@ public class MainActivity extends AppCompatActivity implements APICallback {
                 .commit();
     }
 
-    public void onAfterLogin() {
+    public void onAfterLogin(boolean needsRetry) {
+        if(needsRetry) {
+            startLogin(null);
+            return;
+        }
         System.out.println("LOGGED IN");
         FantasyManager manager = new FantasyManager();
 //        manager.getPlayers(this::onFinish);
