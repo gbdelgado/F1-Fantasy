@@ -149,7 +149,7 @@ public class FantasyManager {
      * @param game_period - The current race for this upcoming weekend
      */
     public void getPickedTeams(APICallback callback, int game_period) {
-        String api_url = String.format("https://fantasy-api.formula1.com/f1/2022/picked_teams?v=1&game_period_id=%d&my_current_picked_teams=true&my_next_picked_teams=true", game_period);
+        String api_url = String.format("https://fantasy-api.formula1.com/f1/2022/picked_teams?v=1&game_period_id=%d&my_current_picked_teams=true&my_next_picked_teams=false", game_period);
         //spin up the task
         CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
         task.execute();

@@ -1,8 +1,6 @@
 package com.example.fantasyf1;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 // from /picked_teams
@@ -15,6 +13,7 @@ public class Team {
     public int turboID;
     public int megaID;
 
+    public int slot;
     public Double score;
     public int totalWeeklySubs;
     public int remainingWeeklySubs;
@@ -23,13 +22,12 @@ public class Team {
 
     public Team(JSONObject obj) {
         // parse and set fields
-        players = new ArrayList<>();
-
         try {
+            slot = obj.getInt("slot");
             name = obj.getString("name");
-            wildcardID = obj.getInt("wildcard_selected_id");
-            turboID = obj.getInt("boosted_player_id");
-            megaID = obj.getInt("mega_boosted_player_id");
+            wildcardID = obj.optInt("wildcard_selected_id", -1);
+            turboID = obj.optInt("boosted_player_id", -1);
+            megaID = obj.optInt("mega_boosted_player_id", -1);
 
             score = obj.getDouble("score");
             totalWeeklySubs = obj.getInt("total_num_weekly_subs");
@@ -45,10 +43,11 @@ public class Team {
         players = members;
 
         try {
+            slot = obj.getInt("slot");
             name = obj.getString("name");
-            wildcardID = obj.getInt("wildcard_selected_id");
-            turboID = obj.getInt("boosted_player_id");
-            megaID = obj.getInt("mega_boosted_player_id");
+            wildcardID = obj.optInt("wildcard_selected_id", -1);
+            turboID = obj.optInt("boosted_player_id", -1);
+            megaID = obj.optInt("mega_boosted_player_id", -1);
 
             score = obj.getDouble("score");
             totalWeeklySubs = obj.getInt("total_num_weekly_subs");
