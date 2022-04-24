@@ -19,7 +19,7 @@ import java.net.CookieHandler;
 public class MainActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
     }
@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements APICallback {
      * @param view
      */
     public void startLogin(View view) {
+        if(view == null) {
+            System.out.println("Restarting");
+        }
         // clear any old cookies
         CookieManager.getInstance().removeAllCookies(null);
         CookieManager.getInstance().flush();
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements APICallback {
 
     public void onAfterLogin(boolean needsRetry) {
         if(needsRetry) {
+            System.out.println("Needs Retry");
             startLogin(null);
             return;
         }

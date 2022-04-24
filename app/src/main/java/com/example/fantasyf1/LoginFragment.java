@@ -97,7 +97,7 @@ public class LoginFragment extends Fragment {
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            if(request.getUrl().toString().startsWith("https://fantasy-api.formula1.com/f1/2022/live_stats?v=1&game_period_id=4")) {
+            if(request.getUrl().toString().startsWith("https://fantasy-api.formula1.com/f1/2022/live_stats?v=1&game_period_id=5")) {
                 System.out.println("STOPPING: " + request.getUrl().toString());
                 containerActivity.getSupportFragmentManager().popBackStack();
                 return null;
