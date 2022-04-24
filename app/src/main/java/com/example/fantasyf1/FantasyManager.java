@@ -25,8 +25,6 @@ public class FantasyManager {
         PUT
     }
 
-    ;
-
     public static enum ResponseType {
         PICKED_TEAMS,
         USER,
@@ -35,8 +33,6 @@ public class FantasyManager {
         SEASON,
         TEAMS
     }
-
-    ;
 
     private boolean loggedIn;
     private HashMap<String, String> headers;

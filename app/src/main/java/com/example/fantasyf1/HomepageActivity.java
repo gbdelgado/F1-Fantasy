@@ -15,7 +15,7 @@ import java.util.Iterator;
 public class HomepageActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
 
@@ -27,6 +27,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         } else if (route.equals("picked_teams")) {
             parsePickedTeams();
         }
+
 
     }
 
