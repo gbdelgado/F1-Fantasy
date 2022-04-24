@@ -106,9 +106,11 @@ public class Team {
             try {
                 // position_id == if they are constructor or driver
                 int position_id = players.get(slot).isConstructor ? 2 : 1;
+                // constructor slots are always 1
+                int realSlot = players.get(slot).isConstructor ? 1 : slot + 1;
 
                 // slots are 1-indexed
-                picked_player.put("slot", slot + 1);
+                picked_player.put("slot", realSlot);
                 picked_player.put("player_id", this.players.get(slot).id);
                 picked_player.put("position_id", position_id);
 
