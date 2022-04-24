@@ -3,6 +3,7 @@ package com.example.fantasyf1;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements APICallback {
     }
 
     LoginFragment loginFragment;
-    SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +62,9 @@ public class MainActivity extends AppCompatActivity implements APICallback {
 //        manager.getSeason(this::onFinish);
 //        manager.getTeams(this::onFinish);
         manager.getPickedTeams(this::onFinish, 4);
-    }
 
-    /**
-     * onClick handler for settingsFragment
-     * @param view
-     */
-    public void settingsFragmentHandler(View view) {
-        settingsFragment.toggleTheme();
+        Intent myIntent = new Intent(this, HomepageActivity.class);
+        this.startActivity(myIntent);
     }
-
 
 }

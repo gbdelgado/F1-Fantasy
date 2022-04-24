@@ -14,11 +14,15 @@ import androidx.fragment.app.Fragment;
 public class SettingsFragment extends Fragment {
 
     private Activity containerActivity = null;
+    private SharedPreferences sharedPrefs = null;
+    private SharedPreferences.Editor editor = null;
 
     public SettingsFragment() {}
 
-    public void setContainerActivity(MainActivity containerActivity) {
+    public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
+        sharedPrefs = containerActivity.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        editor = sharedPrefs.edit();
     }
 
     @Override
@@ -28,15 +32,13 @@ public class SettingsFragment extends Fragment {
     }
 
     /**
+     * @TODO -
+     *
      * gets the currently stored theme preference from SharedPreferences, inverts the theme, and then
      * updates the SharedPreferences
      */
     public void toggleTheme() {
-        SharedPreferences sharedPrefs = containerActivity.getSharedPreferences("pref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-
         // get theme preference
-        /** @TODO - first press is inverted? */
         int themeMode = sharedPrefs.getInt("THEME_MODE", -1);
         if (themeMode == AppCompatDelegate.MODE_NIGHT_NO) {
             themeMode = AppCompatDelegate.MODE_NIGHT_YES;
@@ -50,7 +52,8 @@ public class SettingsFragment extends Fragment {
 
         // set the theme
         AppCompatDelegate.setDefaultNightMode(themeMode);
-        containerActivity.recreate();
+
+        ((HomepageActivity) containerActivity).getSupportFragmentManager().popBackStack();
     }
 
 }
