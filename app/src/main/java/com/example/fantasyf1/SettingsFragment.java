@@ -32,7 +32,7 @@ public class SettingsFragment extends Fragment {
     }
 
     /**
-     * @TODO -
+     * @TODO - first call returns inverted MODE_NIGHT value?
      *
      * gets the currently stored theme preference from SharedPreferences, inverts the theme, and then
      * updates the SharedPreferences

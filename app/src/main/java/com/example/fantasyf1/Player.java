@@ -1,8 +1,6 @@
 package com.example.fantasyf1;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 // from /players
@@ -39,6 +37,9 @@ public class Player {
 
             teamAbbr = obj.getString("team_abbreviation");
             teamID = obj.getInt("team_id");
+
+            JSONObject images = (JSONObject) obj.get("headshot");
+            imageURL = images.getString("profile");
         } catch (Exception e) { e.printStackTrace(); }
     }
 
