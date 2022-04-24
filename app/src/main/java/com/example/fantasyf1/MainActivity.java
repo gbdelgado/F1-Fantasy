@@ -19,7 +19,7 @@ import java.net.CookieHandler;
 public class MainActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
     }
@@ -30,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements APICallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        CookieManager.getInstance().removeAllCookies(null);
-        CookieManager.getInstance().flush();
-
         setContentView(R.layout.activity_main);
     }
 
@@ -41,6 +38,13 @@ public class MainActivity extends AppCompatActivity implements APICallback {
      * @param view
      */
     public void startLogin(View view) {
+        if(view == null) {
+            System.out.println("Restarting");
+        }
+        // clear any old cookies
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
+
         loginFragment = new LoginFragment();
         loginFragment.setContainerActivity(this);
         getSupportFragmentManager().beginTransaction()
@@ -49,7 +53,12 @@ public class MainActivity extends AppCompatActivity implements APICallback {
                 .commit();
     }
 
-    public void onAfterLogin() {
+    public void onAfterLogin(boolean needsRetry) {
+        if(needsRetry) {
+            System.out.println("Needs Retry");
+            startLogin(null);
+            return;
+        }
         System.out.println("LOGGED IN");
         FantasyManager manager = new FantasyManager();
 //        manager.getPlayers(this::onFinish);

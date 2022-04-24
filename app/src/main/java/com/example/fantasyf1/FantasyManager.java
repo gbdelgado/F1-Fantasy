@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.CookieHandler;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,7 +23,20 @@ public class FantasyManager {
         GET,
         POST,
         PUT
-    };
+    }
+
+    ;
+
+    public static enum ResponseType {
+        PICKED_TEAMS,
+        USER,
+        PLAYERS,
+        BOOSTERS,
+        SEASON,
+        TEAMS
+    }
+
+    ;
 
     private boolean loggedIn;
     private HashMap<String, String> headers;
@@ -48,7 +62,7 @@ public class FantasyManager {
                 "https://fantasy-api.formula1.com/f1/2022/picked_teams?v=1&game_period_id=4&my_current_picked_teams=true&my_next_picked_teams=true",
                 "https://fantasy-api.formula1.com/f1/2022/users?v=1&current=true"
         };
-        for(String url : test) {
+        for (String url : test) {
             String encodedCookie = CookieManager.getInstance().getCookie(url);
             System.out.println(encodedCookie);
         }
@@ -81,78 +95,98 @@ public class FantasyManager {
     }
 
     /**
+     * Gets the users information
+     * Request Type: GET
+     *
      * @param callback
-     * @NOTE DOESNT WORK IDK WHY : (
-     * Method for /users
-     * GET Request
      * @deprecated doesnt work
      */
     public void getUser(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/users?v=1&current=true";
         // spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.USER);
         task.execute();
     }
 
     /**
-     * @param callback
-     * @NOTE DOESNT WORK DOESNT WORK DONT USE ASKLDJ:LDGFKJHSD:LKFJA:SFJSF:LKAJDSF:LASKDFJ
      * Method for /2022 route
-     * GET Request
-     * @deprecated
+     * Request Type: GET
+     *
+     * @param callback
      */
     public void getSeason(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022?v=1";
         // spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.SEASON);
         task.execute();
     }
 
     /**
      * Method for /teams
+     * Requst Type: GET
      *
      * @param callback
      */
     public void getTeams(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/teams?v=1";
         // spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.TEAMS);
         task.execute();
     }
 
     /**
      * Method for /boosters
+     * Request Type: GET
      *
      * @param callback
      */
     public void getBoosters(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/boosters?v=1";
         // spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.BOOSTERS);
         task.execute();
     }
 
     /**
      * Method for /players
+     * Request Type: GET
      *
      * @param callback
      */
     public void getPlayers(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/players?v=1";
         // spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.PLAYERS);
         task.execute();
     }
 
     /**
+     * Gets a users picked teams
+     * Request Type: GET
+     *
      * @param callback
      * @param game_period - The current race for this upcoming weekend
      */
     public void getPickedTeams(APICallback callback, int game_period) {
         String api_url = String.format("https://fantasy-api.formula1.com/f1/2022/picked_teams?v=1&game_period_id=%d&my_current_picked_teams=true&my_next_picked_teams=false", game_period);
         //spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.PICKED_TEAMS);
         task.execute();
+    }
+
+    /**
+     * Creates a new team
+     * Request Type: POST
+     *
+     * @param callback
+     * @param team
+     */
+    public void createTeam(APICallback callback, Team team) {
+        String api_url = "https://fantasy-api.formula1.com/f1/2022/picked_teams?v=1";
+        // convert the team to a json
+        JSONObject payload = team.toJSON();
+        // spin up the task
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.POST, ResponseType.PICKED_TEAMS, payload);
     }
 
     /**
@@ -162,11 +196,22 @@ public class FantasyManager {
         private APICallback callback;
         private String api_url;
         private RequestType requestType;
+        private ResponseType responseType;
+        private JSONObject payload;
 
-        public CallAPITask(APICallback onFinish, String api_url, RequestType type) {
+        public CallAPITask(APICallback onFinish, String api_url, RequestType reqType, ResponseType respType) {
             this.callback = onFinish;
             this.api_url = api_url;
-            this.requestType = type;
+            this.requestType = reqType;
+            this.responseType = respType;
+        }
+
+        public CallAPITask(APICallback onFinish, String api_url, RequestType reqType, ResponseType respType, JSONObject payload) {
+            this.callback = onFinish;
+            this.api_url = api_url;
+            this.requestType = reqType;
+            this.responseType = respType;
+            this.payload = payload;
         }
 
         @Override
@@ -178,14 +223,22 @@ public class FantasyManager {
             try {
                 URL url = new URL(this.api_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setInstanceFollowRedirects(true);
-                // set request type
+
+                // set request type and preflight checks
                 switch (this.requestType) {
                     case GET:
                         conn.setRequestMethod(RequestType.GET.toString());
+                        conn.setInstanceFollowRedirects(true);
                         break;
                     case POST:
                         conn.setRequestMethod(RequestType.POST.toString());
+                        conn.setInstanceFollowRedirects(false);
+                        conn.setDoOutput(true);
+                        // Write the payload to the request
+                        try (OutputStream os = conn.getOutputStream()) {
+                            byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
+                            os.write(input, 0, input.length);
+                        }
                         break;
                     case PUT:
                         conn.setRequestMethod(RequestType.PUT.toString());
@@ -205,6 +258,10 @@ public class FantasyManager {
                 for (String prop : headers.keySet()) {
                     System.out.print(prop + " : ");
                     System.out.println(conn.getRequestProperty(prop));
+                }
+
+                if(requestType == RequestType.POST || requestType == RequestType.PUT) {
+                    System.out.println("Body: " + payload.toString());
                 }
                 System.out.println("------------------------------------");
 
@@ -242,7 +299,7 @@ public class FantasyManager {
          */
         protected void onPostExecute(JSONObject resp) {
             // hand the JSON back to the caller
-            this.callback.onFinish(resp);
+            this.callback.onFinish(resp, this.responseType);
         }
     }
 }
