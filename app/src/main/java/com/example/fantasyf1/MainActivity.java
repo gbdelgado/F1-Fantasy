@@ -1,9 +1,11 @@
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,17 +23,28 @@ public class MainActivity extends AppCompatActivity implements APICallback {
         System.out.println(response.toString());
     }
 
+    LoginFragment loginFragment;
+    SettingsFragment settingsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         CookieManager.getInstance().removeAllCookies(null);
         CookieManager.getInstance().flush();
 
         setContentView(R.layout.activity_main);
-        LoginFragment frag = new LoginFragment();
-        frag.setContainerActivity(this);
+    }
+
+    /**
+     * start login fragment for user auth
+     * @param view
+     */
+    public void startLogin(View view) {
+        loginFragment = new LoginFragment();
+        loginFragment.setContainerActivity(this);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.web_frag, frag)
+                .replace(R.id.web_frag, loginFragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -46,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements APICallback {
         manager.getPickedTeams(this::onFinish, 4);
     }
 
+    /**
+     * onClick handler for settingsFragment
+     * @param view
+     */
+    public void settingsFragmentHandler(View view) {
+        settingsFragment.toggleTheme();
+    }
 
 
 }
