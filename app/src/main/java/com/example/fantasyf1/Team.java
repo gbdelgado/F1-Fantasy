@@ -36,30 +36,10 @@ public class Team {
             turboID = obj.optInt("boosted_player_id", -1);
             megaID = obj.optInt("mega_boosted_player_id", -1);
 
-            parentID = obj.getString("parent_id");
+            parentID = obj.optString("parent_id", "");
             gamePeriod = obj.getInt("game_period_id");
             slotID = obj.getInt("slot");
             userID = obj.getString("user_global_id");
-
-            score = obj.getDouble("score");
-            totalWeeklySubs = obj.getInt("total_num_weekly_subs");
-            remainingWeeklySubs = obj.getInt("num_weekly_subs_remaining");
-            value = obj.getDouble("team_value");
-            budget = obj.getDouble("total_budget");
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    // overload for team players
-    public Team(JSONObject obj, ArrayList<Player> members) {
-        // parse and set fields
-        players = members;
-
-        try {
-            slot = obj.getInt("slot");
-            name = obj.getString("name");
-            wildcardID = obj.optInt("wildcard_selected_id", -1);
-            turboID = obj.optInt("boosted_player_id", -1);
-            megaID = obj.optInt("mega_boosted_player_id", -1);
 
             score = obj.getDouble("score");
             totalWeeklySubs = obj.getInt("total_num_weekly_subs");
@@ -76,6 +56,7 @@ public class Team {
     public void removePlayer(Player player) {
         // remove player from players list
     }
+
 
     /**
      * Forms a JSON payload to match the picked_teams route for updating

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,30 +13,36 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class HomepageActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
 
         Iterator<String> keys = response.keys();
         String route = keys.next();
         jsonResponses.put(route, response);
-        if (route.equals("players")) {
+        if (respType == FantasyManager.ResponseType.PLAYERS) {
             parsePlayers();
-        } else if (route.equals("picked_teams")) {
+        } else if (respType == FantasyManager.ResponseType.PICKED_TEAMS) {
             parsePickedTeams();
+            setTeamList();
         }
 
     }
 
     FantasyManager manager = new FantasyManager();
     SettingsFragment settingsFragment;
+
     HashMap<String, JSONObject> jsonResponses = new HashMap<>();
     HashMap<Integer, Player> players = new HashMap<>();
     HashMap<Integer, Team> teams = new HashMap<>();
+
+    String[] itemStrings = {"row_team_name", "row_team_total_points", "row_team_value"};
+    int[] itemIds = {R.id.row_team_name, R.id.row_team_total_points, R.id.row_team_value};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +116,26 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 team.players = tempList;
             }
         } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void setTeamList() {
+        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
+
+        for (int i = 0; i < teams.size(); i++) {
+            HashMap<String, String> map = new HashMap<>();
+            Team tempTeam = teams.get(i + 1);
+
+            map.put("row_team_name", tempTeam.name);
+            map.put("row_team_total_points", "Total Points: " + tempTeam.score);
+            map.put("row_team_value", "Value: $" + tempTeam.value + "M");
+
+            aList.add(map);
+        }
+
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.row_team,
+                itemStrings, itemIds);
+        ListView listView = findViewById(R.id.listview_teams_homepage);
+        listView.setAdapter(simpleAdapter);
     }
 
 }
