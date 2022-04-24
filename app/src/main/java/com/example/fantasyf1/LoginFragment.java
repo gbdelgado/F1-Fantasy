@@ -3,14 +3,21 @@ package com.example.fantasyf1;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookiePolicy;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +42,6 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         CookieManager.getInstance().setAcceptCookie(true);
-
         webView = v.findViewById(R.id.web_view);
 
         webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36");
@@ -58,10 +64,29 @@ public class LoginFragment extends Fragment {
         this.containerActivity.onAfterLogin();
     }
 
+    /**
+     * @NOTE @NOTE @NOTE @NOTE @NOTE @NOTE @NOTE @NOTE @NOTE
+     * NEED TO LOOK OUT FOR THIS REQUEST AND THROW AN ERROR
+     * https://account.formula1.com/#/en/logout?
+     * <p>
+     * idk why but sometimes itll just log me out halfway through logging
+     * maybe its bot control, but if this happens we should dump the cookies
+     * and try again
+     */
     private class LoginClient extends WebViewClient {
+        int count = 0;
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // This is a pretty good indication that we have been let in to the website
+            System.out.println("LOADING: " + url);
             return false;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            System.out.println("FINISHED: " + url);
+
+            super.onPageFinished(view, url);
         }
     }
 
