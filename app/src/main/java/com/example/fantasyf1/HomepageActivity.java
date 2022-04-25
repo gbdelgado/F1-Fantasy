@@ -146,9 +146,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                     .getJSONObject("picked_team_score_totals");
 
             for (int i = 0; i < teams.size(); i++) {
-                System.out.println("BEFORE: " + teams.get(i + 1).points);
                 teams.get(i + 1).points = pickedTeams.getDouble("slot_" + (i + 1));
-                System.out.println("After: " + teams.get(i + 1).points);
             }
 
         } catch (Exception e) { e.printStackTrace(); }
