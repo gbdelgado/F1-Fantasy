@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class CreateTeamActivity extends AppCompatActivity {
     private Team team;
@@ -49,21 +50,18 @@ public class CreateTeamActivity extends AppCompatActivity {
      * Fills in all of the drivers and constructor
      */
     private void fillTeam() {
-        for (int i = 0; i < this.team.players.size(); i++) {
-            Player player = this.team.players.get(i);
-            System.out.println(player.displayName);
+        // find the constructor
+        int currDriverSlot = 0;
+        for (Player player : team.players) {
             TextView text;
             ImageView image;
-
             if (player.isConstructor) {
-                System.out.println("CONSTRUCTOR");
                 image = findViewById(CONSTRUCTOR_SLOTS[0]);
                 text = findViewById(CONSTRUCTOR_SLOTS[1]);
             } else {
-                System.out.println("DRIVER");
-                System.out.println(DRIVER_SLOTS[i][1]);
-                image = findViewById(DRIVER_SLOTS[i][0]);
-                text = findViewById(DRIVER_SLOTS[i][1]);
+                image = findViewById(DRIVER_SLOTS[currDriverSlot][0]);
+                text = findViewById(DRIVER_SLOTS[currDriverSlot][1]);
+                currDriverSlot++;
             }
 
             // load in the image for the driver
@@ -71,9 +69,9 @@ public class CreateTeamActivity extends AppCompatActivity {
             task.execute();
 
             // set the text for driver/constructor
-            System.out.println(text);
             text.setText(player.displayName);
         }
+
     }
 
 
