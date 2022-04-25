@@ -11,6 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/create_team_button"
+            android:layout_width="150dp"
+            android:layout_height="65dp"
+            android:layout_marginBottom="92dp"
+            android:backgroundTint="#F11F1F"
+            android:text="Create Team"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listview_teams_homepage"
+            app:layout_constraintVertical_bias="0.943" />
+
         <TextView
             android:id="@+id/header_home"
             style="@style/H1"
@@ -29,10 +44,11 @@
 
         <ListView
             android:id="@+id/listview_teams_homepage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="64dp"
-            app:layout_constraintTop_toBottomOf="@+id/header_home" />
+            android:layout_width="406dp"
+            android:layout_height="415dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/header_home"
+            tools:layout_editor_absoluteX="2dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

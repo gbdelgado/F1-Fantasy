@@ -3,19 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/activity_create_team.xml" value="0.33" />
+        <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/activity_homepage.xml" value="0.29010416666666666" />
         <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/activity_main.xml" value="0.2807971014492754" />
+        <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/activity_player_list.xml" value="0.1404494382022472" />
         <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/fragment_login.xml" value="0.2807971014492754" />
-        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.162" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.162" />
-        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.25" />
+        <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/fragment_settings.xml" value="0.29010416666666666" />
+        <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/row_player.xml" value="0.1734375" />
+        <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/row_team.xml" value="0.1734375" />
+        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/activity_player_list.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_loading_screen.xml" value="0.5494791666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_team_card.xml" value="0.5494791666666666" />
-        <entry key="app/src/main/res/layout/row_player.xml" value="0.5635416666666667" />
-        <entry key="app/src/main/res/layout/row_team.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/team_list_row.xml" value="0.5494791666666666" />
       </map>
     </option>

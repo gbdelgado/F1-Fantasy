@@ -95,7 +95,6 @@ public class FantasyManager {
      * Request Type: GET
      *
      * @param callback
-     * @deprecated doesnt work
      */
     public void getUser(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/users?v=1&current=true";

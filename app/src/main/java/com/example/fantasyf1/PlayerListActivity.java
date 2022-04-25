@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -26,6 +26,7 @@ import java.util.List;
 public class PlayerListActivity extends AppCompatActivity {
 
     Team team;
+    HashMap<Integer, Player> players;
     PlayerAdapter playerAdapter;
 
     @Override
@@ -34,6 +35,7 @@ public class PlayerListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player_list);
 
         team = (Team) getIntent().getSerializableExtra("TEAM");
+        players = (HashMap<Integer, Player>) getIntent().getSerializableExtra("PLAYERS");
         TextView textView = findViewById(R.id.header_team_name);
         textView.setText(team.name);
 
@@ -48,6 +50,17 @@ public class PlayerListActivity extends AppCompatActivity {
             default:
                 System.out.println("");
         }
+    }
+
+    /**
+     * @param view
+     */
+    public void handleModifyClick(View view) {
+        // start the create/modify team activity
+        Intent intent = new Intent(this, CreateTeamActivity.class);
+        intent.putExtra("TEAM", team);
+        intent.putExtra("PLAYERS", players);
+        this.startActivity(intent);
     }
 
     /**
