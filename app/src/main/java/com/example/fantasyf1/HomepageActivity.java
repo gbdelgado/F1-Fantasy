@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class HomepageActivity extends AppCompatActivity implements APICallback {
 
@@ -24,17 +25,20 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
 
-        Iterator<String> keys = response.keys();
-        String route = keys.next();
-        jsonResponses.put(route, response);
-        if (respType == FantasyManager.ResponseType.PLAYERS) {
-            parsePlayers();
-        } else if (respType == FantasyManager.ResponseType.PICKED_TEAMS) {
-            parsePickedTeams();
-            setTeamList();
+        jsonResponses.put(respType.toString().toLowerCase(Locale.ROOT), response);
+
+        switch (respType) {
+            case PLAYERS:
+                parsePlayers();
+                break;
+            case PICKED_TEAMS:
+                parsePickedTeams();
+                break;
+            case USER:
+                parseUser();
+                setTeamList();
+                break;
         }
-
-
     }
 
     FantasyManager manager = new FantasyManager();
@@ -51,6 +55,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
         manager.getPlayers(this::onFinish);
         manager.getPickedTeams(this::onFinish, 5);
+        manager.getUser(this::onFinish);
 
         setContentView(R.layout.activity_homepage);
     }
@@ -131,6 +136,21 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
                 team.players = tempList;
             }
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void parseUser() {
+        try {
+            JSONObject pickedTeams = jsonResponses.get("user")
+                    .getJSONObject("user")
+                    .getJSONObject("picked_team_score_totals");
+
+            for (int i = 0; i < teams.size(); i++) {
+                System.out.println("BEFORE: " + teams.get(i + 1).points);
+                teams.get(i + 1).points = pickedTeams.getDouble("slot_" + (i + 1));
+                System.out.println("After: " + teams.get(i + 1).points);
+            }
+
         } catch (Exception e) { e.printStackTrace(); }
     }
 
