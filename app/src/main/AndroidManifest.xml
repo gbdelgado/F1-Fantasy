@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FantasyF1">
         <activity
+            android:name=".CreateTeamActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlayerListActivity"
             android:exported="false" />
         <activity
