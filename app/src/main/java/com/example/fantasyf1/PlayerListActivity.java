@@ -14,9 +14,7 @@ import java.util.List;
 public class PlayerListActivity extends AppCompatActivity {
 
     Team team;
-
-    String[] itemStrings = {"row_player_name", "row_player_points", "row_player_value"};
-    int[] itemIds = {R.id.row_player_name, R.id.row_player_points, R.id.row_player_value};
+    PlayerAdapter playerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +32,8 @@ public class PlayerListActivity extends AppCompatActivity {
      * create ListView for team's players
      */
     private void setPlayerList() {
-        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
-
-        for (Player tempPlayer : team.players) {
-            HashMap<String, String> map = new HashMap<>();
-
-            map.put("row_player_name", tempPlayer.displayName);
-            map.put("row_player_points", "Points: " + tempPlayer.seasonScore);
-            map.put("row_player_value", "Value: $" + tempPlayer.price + "M");
-
-            aList.add(map);
-        }
-
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.row_player,
-                itemStrings, itemIds);
         ListView listView = findViewById(R.id.listview_players_teampage);
-        listView.setAdapter(simpleAdapter);
+        playerAdapter = new PlayerAdapter(this, R.layout.row_player, team.players);
+        listView.setAdapter(playerAdapter);
     }
 }

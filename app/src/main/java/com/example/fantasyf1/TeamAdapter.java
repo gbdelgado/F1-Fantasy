@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class TeamAdapter extends ArrayAdapter<Team> {
 
     private Context context;
-    private ArrayList<Team> teams = new ArrayList<>();
+    private ArrayList<Team> teams;
 
     public TeamAdapter(Context context, int rowLayoutID, ArrayList<Team> teams) {
         super(context, rowLayoutID, teams);
@@ -40,7 +40,7 @@ public class TeamAdapter extends ArrayAdapter<Team> {
         points.setText(pointsText);
 
         TextView value = (TextView) view.findViewById(R.id.row_team_value);
-        String valueText = "Value: " + team.value;
+        String valueText = "Value: " + team.value + "M";
         value.setText(valueText);
 
         return view;
