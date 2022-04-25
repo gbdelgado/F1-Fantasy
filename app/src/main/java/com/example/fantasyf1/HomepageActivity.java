@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class HomepageActivity extends AppCompatActivity implements APICallback {
 
@@ -25,24 +26,27 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
 
-        Iterator<String> keys = response.keys();
-        String route = keys.next();
-        jsonResponses.put(route, response);
-        if (respType == FantasyManager.ResponseType.PLAYERS) {
-            parsePlayers();
-        } else if (respType == FantasyManager.ResponseType.PICKED_TEAMS) {
-            parsePickedTeams();
-            setTeamList();
-            // a user can have a max of 3 teams
-            Button createTeamButton = findViewById(R.id.create_team_button);
-            if(teams.size() < 3) {
-                createTeamButton.setVisibility(View.VISIBLE);
-            } else {
-                createTeamButton.setVisibility(View.GONE);
-            }
+        jsonResponses.put(respType.toString().toLowerCase(Locale.ROOT), response);
+
+        switch (respType) {
+            case PLAYERS:
+                parsePlayers();
+                break;
+            case PICKED_TEAMS:
+                parsePickedTeams();
+                break;
+            case USER:
+                parseUser();
+                setTeamList();
+                // a user can have a max of 3 teams
+                Button createTeamButton = findViewById(R.id.create_team_button);
+                if(teams.size() < 3) {
+                    createTeamButton.setVisibility(View.VISIBLE);
+                } else {
+                    createTeamButton.setVisibility(View.GONE);
+                }
+                break;
         }
-
-
     }
 
     FantasyManager manager = new FantasyManager();
@@ -59,6 +63,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
         manager.getPlayers(this::onFinish);
         manager.getPickedTeams(this::onFinish, 5);
+        manager.getUser(this::onFinish);
 
         setContentView(R.layout.activity_homepage);
     }
@@ -140,6 +145,19 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
                 team.players = tempList;
             }
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void parseUser() {
+        try {
+            JSONObject pickedTeams = jsonResponses.get("user")
+                    .getJSONObject("user")
+                    .getJSONObject("picked_team_score_totals");
+
+            for (int i = 0; i < teams.size(); i++) {
+                teams.get(i + 1).points = pickedTeams.getDouble("slot_" + (i + 1));
+            }
+
         } catch (Exception e) { e.printStackTrace(); }
     }
 

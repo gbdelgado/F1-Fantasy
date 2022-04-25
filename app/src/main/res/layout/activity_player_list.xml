@@ -21,9 +21,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="67dp"
+            style="@style/Frame_Layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_team_name" />
+            app:layout_constraintTop_toBottomOf="@+id/header_team_name" >
+        </ListView>
+
+        <ImageView
+            android:id="@+id/image_share"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/share"
+            android:onClick="onClickHandler"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
             android:id="@+id/modify_button"

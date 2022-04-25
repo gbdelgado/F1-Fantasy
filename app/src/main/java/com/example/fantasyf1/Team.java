@@ -19,6 +19,7 @@ public class Team implements Serializable {
     public int megaID;
     public int gamePeriod;
 
+    public Double points;
     public int slot;
     public Double score;
     public int totalWeeklySubs;

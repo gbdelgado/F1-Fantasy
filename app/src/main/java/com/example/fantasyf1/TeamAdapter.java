@@ -36,7 +36,7 @@ public class TeamAdapter extends ArrayAdapter<Team> {
         name.setText(team.name);
 
         TextView points = (TextView) view.findViewById(R.id.row_team_total_points);
-        String pointsText = "Points: " + team.score;
+        String pointsText = "Points: " + team.points;
         points.setText(pointsText);
 
         TextView value = (TextView) view.findViewById(R.id.row_team_value);
