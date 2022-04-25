@@ -22,7 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            style="@style/Row_Text" />
+            style="@style/Row_Text"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/row_team_total_points"

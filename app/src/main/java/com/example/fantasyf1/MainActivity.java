@@ -3,7 +3,9 @@ package com.example.fantasyf1;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements APICallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get and set theme preference
+        SharedPreferences sharedPrefs = this.getSharedPreferences("pref", Context.MODE_PRIVATE);
+        int themeMode = sharedPrefs.getInt("THEME_MODE", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
+        AppCompatDelegate.setDefaultNightMode(themeMode);
 
         setContentView(R.layout.activity_main);
     }

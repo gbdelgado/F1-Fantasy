@@ -1,8 +1,11 @@
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -148,6 +151,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
+    /**
+     * parses user data to get point totals for each user team
+     */
     private void parseUser() {
         try {
             JSONObject pickedTeams = jsonResponses.get("user")

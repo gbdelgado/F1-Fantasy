@@ -32,15 +32,13 @@ public class SettingsFragment extends Fragment {
     }
 
     /**
-     * @TODO - first call returns inverted MODE_NIGHT value?
-     *
      * gets the currently stored theme preference from SharedPreferences, inverts the theme, and then
      * updates the SharedPreferences
      */
     public void toggleTheme() {
         // get theme preference
         int themeMode = sharedPrefs.getInt("THEME_MODE", -1);
-        if (themeMode == AppCompatDelegate.MODE_NIGHT_NO) {
+        if (themeMode == AppCompatDelegate.MODE_NIGHT_NO || themeMode == -1) {
             themeMode = AppCompatDelegate.MODE_NIGHT_YES;
         } else {
             themeMode = AppCompatDelegate.MODE_NIGHT_NO;
