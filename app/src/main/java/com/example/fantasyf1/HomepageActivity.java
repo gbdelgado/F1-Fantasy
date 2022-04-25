@@ -34,6 +34,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
             setTeamList();
         }
 
+
     }
 
     FantasyManager manager = new FantasyManager();

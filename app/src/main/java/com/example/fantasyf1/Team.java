@@ -12,13 +12,12 @@ public class Team implements Serializable {
     public ArrayList<Player> players;
 
     public String name;
-    public String parentID;
+    public String parentID = null;
     public String userID;
     public int wildcardID;
     public int turboID;
     public int megaID;
     public int gamePeriod;
-    public int slotID;
 
     public int slot;
     public Double score;
@@ -37,9 +36,7 @@ public class Team implements Serializable {
             turboID = obj.optInt("boosted_player_id", -1);
             megaID = obj.optInt("mega_boosted_player_id", -1);
 
-            parentID = obj.optString("parent_id", "");
             gamePeriod = obj.getInt("game_period_id");
-            slotID = obj.getInt("slot");
             userID = obj.getString("user_global_id");
 
             score = obj.getDouble("score");
@@ -78,7 +75,7 @@ public class Team implements Serializable {
             picked_team.put("mega_player_booster_selected_id", this.megaID);
             picked_team.put("name", this.name);
             picked_team.put("parent_id", this.parentID);
-            picked_team.put("slot", this.slotID);
+            picked_team.put("slot", this.slot);
             picked_team.put("user_id", this.userID);
             picked_team.put("wildcard_selected_id", this.wildcardID);
 
@@ -91,9 +88,11 @@ public class Team implements Serializable {
             try {
                 // position_id == if they are constructor or driver
                 int position_id = players.get(slot).isConstructor ? 2 : 1;
+                // constructor slots are always 1
+                int realSlot = players.get(slot).isConstructor ? 1 : slot + 1;
 
                 // slots are 1-indexed
-                picked_player.put("slot", slot + 1);
+                picked_player.put("slot", realSlot);
                 picked_player.put("player_id", this.players.get(slot).id);
                 picked_player.put("position_id", position_id);
 
