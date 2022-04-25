@@ -1,10 +1,12 @@
 package com.example.fantasyf1;
 
 import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // from /players
-public class Player {
+public class Player implements Serializable {
 
     public int id;
     public String firstName;

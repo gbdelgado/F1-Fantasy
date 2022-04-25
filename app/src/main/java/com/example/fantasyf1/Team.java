@@ -1,12 +1,13 @@
 package com.example.fantasyf1;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // from /picked_teams
-public class Team {
+public class Team implements Serializable {
 
     public ArrayList<Player> players;
 
@@ -46,26 +47,6 @@ public class Team {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    // overload for team players
-    public Team(JSONObject obj, ArrayList<Player> members) {
-        // parse and set fields
-        players = members;
-
-        try {
-            slot = obj.getInt("slot");
-            name = obj.getString("name");
-            wildcardID = obj.optInt("wildcard_selected_id", -1);
-            turboID = obj.optInt("boosted_player_id", -1);
-            megaID = obj.optInt("mega_boosted_player_id", -1);
-
-            score = obj.getDouble("score");
-            totalWeeklySubs = obj.getInt("total_num_weekly_subs");
-            remainingWeeklySubs = obj.getInt("num_weekly_subs_remaining");
-            value = obj.getDouble("team_value");
-            budget = obj.getDouble("total_budget");
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
     public void addPlayer(Player player) {
         // add player to players list
     }
@@ -73,6 +54,7 @@ public class Team {
     public void removePlayer(Player player) {
         // remove player from players list
     }
+
 
     /**
      * Forms a JSON payload to match the picked_teams route for updating
