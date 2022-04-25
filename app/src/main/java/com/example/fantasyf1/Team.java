@@ -1,12 +1,13 @@
 package com.example.fantasyf1;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // from /picked_teams
-public class Team {
+public class Team implements Serializable {
 
     public ArrayList<Player> players;
 

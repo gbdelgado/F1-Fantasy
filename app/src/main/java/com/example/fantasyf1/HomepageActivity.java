@@ -2,10 +2,12 @@ package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,6 +70,19 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                          .replace(R.id.layout_home_page, settingsFragment)
                          .addToBackStack(null)
                          .commit();
+                 break;
+            case R.id.row_team:
+                /** @TODO - BUG: only gets team #1? */
+                ListView listView = findViewById(R.id.listview_teams_homepage);
+                TextView textView = listView.findViewById(R.id.row_team_name);
+                int slot = Integer.parseInt(((String) textView.getText()).substring(1, 2));
+
+                Intent intent = new Intent(this, PlayerListActivity.class);
+                intent.putExtra("TEAM", teams.get(slot));
+                this.startActivity(intent);
+                break;
+            default:
+                System.out.println("");
         }
     }
 
@@ -86,6 +101,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 .commit();
     }
 
+    /**
+     * runs through JSONArray of players to build HashMap of Player objects
+     */
     private void parsePlayers() {
         try {
             JSONArray playerArr = jsonResponses.get("players").getJSONArray("players");
@@ -97,6 +115,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
+    /**
+     * runs through JSONArray of user teams, and build ArrayList of Players on the team
+     */
     private void parsePickedTeams() {
         try {
             JSONArray teamArr = jsonResponses.get("picked_teams").getJSONArray("picked_teams");
@@ -118,6 +139,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
+    /**
+     * create ListView for the user's teams
+     */
     private void setTeamList() {
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
 
@@ -125,7 +149,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
             HashMap<String, String> map = new HashMap<>();
             Team tempTeam = teams.get(i + 1);
 
-            map.put("row_team_name", tempTeam.name);
+            map.put("row_team_name", "#" + tempTeam.slot + "- " + tempTeam.name);
             map.put("row_team_total_points", "Total Points: " + tempTeam.score);
             map.put("row_team_value", "Value: $" + tempTeam.value + "M");
 

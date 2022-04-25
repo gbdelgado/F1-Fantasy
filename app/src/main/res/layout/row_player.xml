@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/row_team"
+    android:id="@+id/row_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:onClick="onClickHandler">
+    android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/row_team_image"
-        android:layout_width="150dp"
+        android:id="@+id/row_player_image"
+        android:layout_width="75dp"
         android:layout_height="75dp"
         android:src="@drawable/logo"/>
 
@@ -18,26 +17,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/row_team_name"
+            android:id="@+id/row_player_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
             style="@style/Row_Text" />
 
         <TextView
-            android:id="@+id/row_team_total_points"
+            android:id="@+id/row_player_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             style="@style/Row_Text" />
 
         <TextView
-            android:id="@+id/row_team_value"
+            android:id="@+id/row_player_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             style="@style/Row_Text" />
 
     </LinearLayout>
+
+
 
 </LinearLayout>
