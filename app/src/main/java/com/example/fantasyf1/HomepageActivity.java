@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -32,6 +33,13 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         } else if (respType == FantasyManager.ResponseType.PICKED_TEAMS) {
             parsePickedTeams();
             setTeamList();
+            // a user can have a max of 3 teams
+            Button createTeamButton = findViewById(R.id.create_team_button);
+            if(teams.size() < 3) {
+                createTeamButton.setVisibility(View.VISIBLE);
+            } else {
+                createTeamButton.setVisibility(View.GONE);
+            }
         }
 
 
@@ -76,6 +84,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 int slot = listView.getPositionForView(view) + 1;
                 Intent intent = new Intent(this, PlayerListActivity.class);
                 intent.putExtra("TEAM", teams.get(slot));
+                intent.putExtra("PLAYERS", players);
                 this.startActivity(intent);
                 break;
             default:

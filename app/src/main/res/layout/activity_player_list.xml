@@ -25,6 +25,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header_team_name" />
 
+        <ImageView
+            android:id="@+id/modify_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/modify"
+            android:onClick="handleModifyClick"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
