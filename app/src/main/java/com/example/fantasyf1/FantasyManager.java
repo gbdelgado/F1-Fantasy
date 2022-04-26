@@ -31,7 +31,9 @@ public class FantasyManager {
         PLAYERS,
         BOOSTERS,
         SEASON,
-        TEAMS
+        TEAMS,
+        LEAGUE_ENTRANTS,
+        LEAGUE_IMAGES
     }
 
     private boolean loggedIn;
@@ -139,6 +141,30 @@ public class FantasyManager {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/boosters?v=1";
         // spin up the task
         CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.BOOSTERS);
+        task.execute();
+    }
+
+    /**
+     * Method for /league_entrants
+     * Request Type: GET
+     *
+     * @param callback
+     */
+    public void getLeagueEntrants(APICallback callback) {
+        String api_url = "https://fantasy-api.formula1.com/f1/2022/league_entrants?v=1";
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.LEAGUE_ENTRANTS);
+        task.execute();
+    }
+
+    /**
+     * Method for /league_image_sets
+     * Request Type: GET
+     *
+     * @param callback
+     */
+    public void getLeagueImages(APICallback callback) {
+        String api_url = "https://fantasy-api.formula1.com/f1/2022/league_image_sets?v=1";
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.LEAGUE_IMAGES);
         task.execute();
     }
 
@@ -255,7 +281,7 @@ public class FantasyManager {
                     System.out.println(conn.getRequestProperty(prop));
                 }
 
-                if(requestType == RequestType.POST || requestType == RequestType.PUT) {
+                if (requestType == RequestType.POST || requestType == RequestType.PUT) {
                     System.out.println("Body: " + payload.toString());
                 }
                 System.out.println("------------------------------------");

@@ -166,7 +166,12 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 JSONArray playersArr = jsonTeam.getJSONArray("picked_players");
                 for (int j = 0; j < playersArr.length(); j++) {
                     JSONObject jsonPlayer = playersArr.getJSONObject(j);
-                    tempList.add(players.get(jsonPlayer.getInt("player_id")));
+                    Player player = players.get(jsonPlayer.getInt("player_id"));
+                    tempList.add(player);
+                    // for circular checks in transactions later
+                    if(player.isConstructor) {
+                        team.originalConstructor = player;
+                    }
                 }
 
                 team.players = tempList;
