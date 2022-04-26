@@ -54,6 +54,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
     FantasyManager manager = new FantasyManager();
     SettingsFragment settingsFragment;
+    HelpFragment helpFragment;
 
     HashMap<String, JSONObject> jsonResponses = new HashMap<>();
     HashMap<Integer, Player> players = new HashMap<>();
@@ -95,6 +96,14 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 intent.putExtra("PLAYERS", players);
                 this.startActivity(intent);
                 break;
+            case R.id.text_help:
+                helpFragment = new HelpFragment();
+                helpFragment.setContainerActivity(this);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_home_page, helpFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
             default:
                 System.out.println("");
         }
@@ -111,6 +120,10 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 .beginTransaction()
                 .remove(settingsFragment)
                 .commit();
+    }
+
+    public void helpFragmentHandler(View view) {
+        helpFragment.onClickHandler(view);
     }
 
     /**
