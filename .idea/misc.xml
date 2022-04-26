@@ -13,6 +13,7 @@
         <entry key="..\:/Users/sonof/AndroidStudioProjects/FantasyF1/app/src/main/res/layout/row_team.xml" value="0.1734375" />
         <entry key="app/src/main/res/layout/activity_create_team.xml" value="0.5084427767354597" />
         <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.5635416666666667" />
+        <entry key="app/src/main/res/layout/activity_leagues.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/fragment_loading_screen.xml" value="0.5494791666666666" />
@@ -20,6 +21,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_team_card.xml" value="0.5494791666666666" />
         <entry key="app/src/main/res/layout/fragment_webview.xml" value="0.5494791666666666" />
+        <entry key="app/src/main/res/layout/row_league.xml" value="0.1" />
         <entry key="app/src/main/res/layout/row_player.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/team_list_row.xml" value="0.5494791666666666" />
       </map>
