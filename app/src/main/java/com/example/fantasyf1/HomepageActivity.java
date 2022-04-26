@@ -48,6 +48,12 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 } else {
                     createTeamButton.setVisibility(View.GONE);
                 }
+                Button leaguesButton = findViewById(R.id.button_user_leagues);
+                if(teams.size() > 0) {
+                    leaguesButton.setVisibility(View.VISIBLE);
+                } else {
+                    leaguesButton.setVisibility(View.GONE);
+                }
                 break;
         }
     }
@@ -103,6 +109,10 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                         .replace(R.id.layout_home_page, helpFragment)
                         .addToBackStack(null)
                         .commit();
+                break;
+            case R.id.button_user_leagues:
+                Intent anotherIntent = new Intent(this, LeaguesActivity.class);
+                this.startActivity(anotherIntent);
                 break;
             default:
                 System.out.println("");
