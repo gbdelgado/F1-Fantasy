@@ -3,15 +3,22 @@ package com.example.fantasyf1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CreateTeamActivity extends AppCompatActivity {
     private Team team;
+    private HashMap<Integer, Player> players;
     // this helps us when we call the api, they are two different methods for updating and creating :/
     private boolean createMode;
 
@@ -30,52 +37,68 @@ public class CreateTeamActivity extends AppCompatActivity {
             R.id.constructor_slot_text
     };
 
+    private HashMap<Integer, Player> lut;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // load the extras
         team = (Team) getIntent().getSerializableExtra("TEAM");
+        players = (HashMap<Integer, Player>) getIntent().getSerializableExtra("PLAYERS");
+        System.out.println(players);
         setContentView(R.layout.activity_create_team);
 
-        // if team is null, then we are creating a new team
-        if (team == null) {
-            this.createMode = true;
-        } else {
-            this.fillTeam();
-        }
+        // prep the frag
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("TEAM", this.team);
+        bundle.putSerializable("PLAYERS", this.players);
 
+        CreateTeamFragment frag = new CreateTeamFragment();
+        frag.setArguments(bundle);
+        frag.setContainerActivity(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.pick_player_fragment_layout, frag)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
-     * Fills in all of the drivers and constructor
+     * Gets the lut from the fragment
+     *
+     * @param lut
      */
-    private void fillTeam() {
-        // find the constructor
-        int currDriverSlot = 0;
-        for (Player player : team.players) {
-            TextView text;
-            ImageView image;
-            if (player.isConstructor) {
-                image = findViewById(CONSTRUCTOR_SLOTS[0]);
-                text = findViewById(CONSTRUCTOR_SLOTS[1]);
-            } else {
-                image = findViewById(DRIVER_SLOTS[currDriverSlot][0]);
-                text = findViewById(DRIVER_SLOTS[currDriverSlot][1]);
-                currDriverSlot++;
-            }
+    public void setLut(HashMap<Integer, Player> lut) {
+        this.lut = lut;
+    }
 
-            // load in the image for the driver
-            DownloadImageTask task = new DownloadImageTask(image, player.imageURL);
-            task.execute();
+    public void handleAddPlayerClick(View view) {
+        // find what player we have
+        Player playerOut = lut.get(view.getId());
 
-            // set the text for driver/constructor
-            text.setText(player.displayName);
-        }
+        // create a list<Player> with all the players we dont have in our team
+        ArrayList<Player> toDisplay = (ArrayList<Player>) players.values().stream()
+                .filter(e -> {
+                    //only include players that are not the same id but the same type and not in the same team
+                    return (e.isConstructor == playerOut.isConstructor) && (e.id != playerOut.id) && !team.playerInTeam(e);
+                })
+                .collect(Collectors.toList());
 
+        // set the args for the frag
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PLAYERS", toDisplay);
+        bundle.putSerializable("PLAYER_OUT", playerOut);
+        bundle.putSerializable("TEAM", this.team);
+
+        PlayerListFragment frag = new PlayerListFragment();
+        frag.setArguments(bundle);
+        frag.setContainerActivity(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.pick_player_fragment_layout, frag)
+                .addToBackStack(null)
+                .commit();
     }
 
 
-    public void handleClick(View view) {
-
-    }
 }
