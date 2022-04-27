@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class LeagueAdapter extends ArrayAdapter {
 
     private Context context;
-    private League[] leagues;
+    private ArrayList<League> leagues;
 
-    public LeagueAdapter(Context context, int rowLayoutID, League[] leagues) {
+    public LeagueAdapter(Context context, int rowLayoutID, ArrayList<League> leagues) {
         super(context, rowLayoutID, leagues);
         this.context = context;
         this.leagues = leagues;
@@ -29,7 +29,7 @@ public class LeagueAdapter extends ArrayAdapter {
             view = layoutInflater.inflate(R.layout.row_league, null);
         }
 
-        League league = leagues[position];
+        League league = leagues.get(position);
 
         DownloadImageTask downloadImageTask = new DownloadImageTask(view.findViewById(R.id.row_league_image), league.imageURL);
         downloadImageTask.execute();
