@@ -33,7 +33,8 @@ public class FantasyManager {
         SEASON,
         TEAMS,
         LEAGUE_ENTRANTS,
-        LEAGUE_IMAGES
+        LEAGUE_IMAGES,
+        GET_LEAGUE
     }
 
     private boolean loggedIn;
@@ -165,6 +166,19 @@ public class FantasyManager {
     public void getLeagueImages(APICallback callback) {
         String api_url = "https://fantasy-api.formula1.com/f1/2022/league_image_sets?v=1";
         CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.LEAGUE_IMAGES);
+        task.execute();
+    }
+
+    /**
+     * Method for /leagues?league_id=<league_id>
+     * Request Type: GET
+     *
+     * @param callback
+     * @param leagueID
+     */
+    public void getLeague(APICallback callback, int leagueID) {
+        String api_url = String.format("https://fantasy-api.formula1.com/f1/2022/leaderboards/leagues?v=1&league_id=%d", leagueID);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.GET_LEAGUE);
         task.execute();
     }
 
