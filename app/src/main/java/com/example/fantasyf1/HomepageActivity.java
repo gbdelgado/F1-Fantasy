@@ -207,9 +207,11 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                     .getJSONObject("picked_team_score_totals");
 
             // also set the user id here, if a user has no teams this is the only way to get it
-            String user_id = jsonResponses.get("user")
-                    .getString("global_id");
-            userID = user_id;
+            if (teams.size() < 3) {
+                String user_id = jsonResponses.get("user")
+                        .getString("global_id");
+                userID = user_id;
+            }
 
             for (int i = 0; i < teams.size(); i++) {
                 teams.get(i + 1).points = pickedTeams.getDouble("slot_" + (i + 1));
