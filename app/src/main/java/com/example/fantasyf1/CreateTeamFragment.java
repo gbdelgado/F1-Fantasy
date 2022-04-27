@@ -10,17 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.HashMap;
 
 public class CreateTeamFragment extends Fragment {
     // slots for drivers, they are always top
     private final int[][] DRIVER_SLOTS = {
-            {R.id.player_slot_1, R.id.player_slot_1_text},
-            {R.id.player_slot_2, R.id.player_slot_2_text},
-            {R.id.player_slot_3, R.id.player_slot_3_text},
-            {R.id.player_slot_4, R.id.player_slot_4_text},
-            {R.id.player_slot_5, R.id.player_slot_5_text}
+            {R.id.player_slot_1, R.id.player_slot_1_text, R.id.turbo_slot_1},
+            {R.id.player_slot_2, R.id.player_slot_2_text, R.id.turbo_slot_2},
+            {R.id.player_slot_3, R.id.player_slot_3_text, R.id.turbo_slot_3},
+            {R.id.player_slot_4, R.id.player_slot_4_text, R.id.turbo_slot_4},
+            {R.id.player_slot_5, R.id.player_slot_5_text, R.id.turbo_slot_5}
     };
 
     // slot for constructor, always bottom
@@ -61,7 +62,17 @@ public class CreateTeamFragment extends Fragment {
             } else {
                 image = v.findViewById(DRIVER_SLOTS[currDriverSlot][0]);
                 text = v.findViewById(DRIVER_SLOTS[currDriverSlot][1]);
+                ToggleButton turbo = v.findViewById(DRIVER_SLOTS[currDriverSlot][2]);
                 lut.put(DRIVER_SLOTS[currDriverSlot][0], player);
+                // last check if this is the turbo driver
+                if (team.turboID == player.id) {
+                    turbo.setEnabled(false);
+                    turbo.setChecked(true);
+                } else if (player.price < Player.MAX_TURBO_COST) {
+                    turbo.setEnabled(true);
+                } else {
+                    turbo.setEnabled(false);
+                }
                 currDriverSlot++;
             }
 

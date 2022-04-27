@@ -221,6 +221,7 @@ public class FantasyManager {
         JSONObject payload = team.toJSON();
         // spin up the task
         CallAPITask task = new CallAPITask(callback, api_url, RequestType.POST, ResponseType.PICKED_TEAMS, payload);
+        task.execute();
     }
 
     /**
@@ -309,9 +310,6 @@ public class FantasyManager {
                         break;
                 }
 
-
-
-
                 System.out.println("--------- MAKING REQUEST -----------");
                 System.out.println("URL: " + this.api_url);
                 for (String prop : headers.keySet()) {
@@ -327,7 +325,11 @@ public class FantasyManager {
                 conn.connect();
                 // make the request
                 InputStream _is;
-                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                if (conn.getResponseCode() == 201) {
+                    // so it turns out that sometimes they just dont feel like gzipping ????????
+                    System.out.println("CREATED");
+                    _is = conn.getInputStream();
+                } else if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
                     System.out.println("GOOD REQUEST");
                     _is = new GZIPInputStream(conn.getInputStream());
                 } else {

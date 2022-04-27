@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 // from /players
 public class Player implements Serializable {
+    // any player under this cost can be turbo
+    public static final int MAX_TURBO_COST = 20;
 
     public int id;
     public String firstName;

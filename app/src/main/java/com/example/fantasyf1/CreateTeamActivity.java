@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.json.JSONObject;
 
@@ -52,11 +53,11 @@ public class CreateTeamActivity extends AppCompatActivity implements APICallback
 
     // slots for drivers, they are always top
     private final int[][] DRIVER_SLOTS = {
-            {R.id.player_slot_1, R.id.player_slot_1_text},
-            {R.id.player_slot_2, R.id.player_slot_2_text},
-            {R.id.player_slot_3, R.id.player_slot_3_text},
-            {R.id.player_slot_4, R.id.player_slot_4_text},
-            {R.id.player_slot_5, R.id.player_slot_5_text}
+            {R.id.player_slot_1, R.id.player_slot_1_text, R.id.turbo_slot_1},
+            {R.id.player_slot_2, R.id.player_slot_2_text, R.id.turbo_slot_2},
+            {R.id.player_slot_3, R.id.player_slot_3_text, R.id.turbo_slot_3},
+            {R.id.player_slot_4, R.id.player_slot_4_text, R.id.turbo_slot_4},
+            {R.id.player_slot_5, R.id.player_slot_5_text, R.id.turbo_slot_5}
     };
 
     // slot for constructor, always bottom
@@ -241,6 +242,11 @@ public class CreateTeamActivity extends AppCompatActivity implements APICallback
                 .commit();
     }
 
+    /**
+     * Handles the submission of a new team
+     *
+     * @param view
+     */
     public void handleModifyTeamClick(View view) {
         // two decisions in case this is a new team
         FantasyManager manager = new FantasyManager();
@@ -258,6 +264,38 @@ public class CreateTeamActivity extends AppCompatActivity implements APICallback
             // make the request and reload
             manager.updateTeam(this::onFinish, remoteTeam);
         }
+    }
+
+    /**
+     * Handles the change of a turbo driver
+     */
+    public void handleTurboChange(View view) {
+        // find the turbo driver and set both visually and programmaitcily who the new turbo is
+        for (int[] ids : DRIVER_SLOTS) {
+            Player curr = lut.get(ids[0]);
+            if(curr == null) {
+                continue;
+            }
+            ToggleButton turboButton = findViewById(ids[2]);
+            System.out.println(curr);
+            // this means we have a turbo driver
+            if (view.getId() == ids[2]) {
+                turboButton.setChecked(true);
+                // you can't unselect a turbo driver u MUST have one
+                turboButton.setEnabled(false);
+                // then tell the team we have a turbo
+                newTeam.turboID = curr.id;
+            } else if (curr.price < Player.MAX_TURBO_COST) {
+                turboButton.setChecked(false);
+                turboButton.setEnabled(true);
+            } else {
+                turboButton.setEnabled(false);
+                turboButton.setChecked(false);
+            }
+        }
+
+        // report that there might've been an equality change
+        this.checkTeamEquality();
     }
 
 }

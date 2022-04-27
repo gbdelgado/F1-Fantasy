@@ -14,16 +14,176 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/player_slot_1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:onClick="handleAddPlayerClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_home2"
+        app:srcCompat="@drawable/blank_helmet" />
+
+    <ToggleButton
+        android:id="@+id/turbo_slot_1"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="handleTurboChange"
+        android:textOff="TD"
+        android:textOn="TD 🔥"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/player_slot_1"
+        app:layout_constraintStart_toStartOf="@+id/player_slot_1"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_1" />
+
+    <TextView
+        android:id="@+id/player_slot_1_text"
+        style="@style/Row_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/turbo_slot_1"
+        app:layout_constraintStart_toStartOf="@+id/turbo_slot_1"
+        app:layout_constraintTop_toBottomOf="@+id/turbo_slot_1"
+        android:text="@string/add_driver" />
+
+
+    <ImageView
+        android:id="@+id/player_slot_2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:onClick="handleAddPlayerClick"
+        app:layout_constraintEnd_toStartOf="@+id/player_slot_3"
+        app:layout_constraintStart_toEndOf="@+id/player_slot_1"
+        app:layout_constraintTop_toBottomOf="@id/header_home2"
+        app:srcCompat="@drawable/blank_helmet" />
+
+    <ToggleButton
+        android:id="@+id/turbo_slot_2"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="handleTurboChange"
+        android:textOff="TD"
+        android:textOn="TD 🔥"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/player_slot_2"
+        app:layout_constraintStart_toStartOf="@+id/player_slot_2"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_2" />
+
+    <TextView
+        android:id="@+id/player_slot_2_text"
+        style="@style/Row_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/turbo_slot_2"
+        app:layout_constraintStart_toStartOf="@+id/turbo_slot_2"
+        app:layout_constraintTop_toBottomOf="@+id/turbo_slot_2"
+        android:text="@string/add_driver" />
+
+    <ImageView
+        android:id="@+id/player_slot_3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="36dp"
+        android:onClick="handleAddPlayerClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_home2"
+        app:srcCompat="@drawable/blank_helmet" />
+
+    <ToggleButton
+        android:id="@+id/turbo_slot_3"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="handleTurboChange"
+        android:textOff="TD"
+        android:textOn="TD 🔥"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/player_slot_3"
+        app:layout_constraintStart_toStartOf="@+id/player_slot_3"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_3" />
+
+    <TextView
+        android:id="@+id/player_slot_3_text"
+        style="@style/Row_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/turbo_slot_3"
+        app:layout_constraintStart_toStartOf="@+id/turbo_slot_3"
+        app:layout_constraintTop_toBottomOf="@+id/turbo_slot_3"
+        android:text="@string/add_driver" />
+
+    <ImageView
+        android:id="@+id/player_slot_4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:onClick="handleAddPlayerClick"
+        app:layout_constraintEnd_toStartOf="@+id/player_slot_5_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_2_text"
+        app:srcCompat="@drawable/blank_helmet" />
+
+    <ToggleButton
+        android:id="@+id/turbo_slot_4"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="handleTurboChange"
+        android:textOff="TD"
+        android:textOn="TD 🔥"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/player_slot_4"
+        app:layout_constraintStart_toStartOf="@+id/player_slot_4"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_4" />
+
     <TextView
         android:id="@+id/player_slot_4_text"
         style="@style/Row_Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/player_slot_4"
-        app:layout_constraintStart_toStartOf="@+id/player_slot_4"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_4"
+        app:layout_constraintEnd_toEndOf="@+id/turbo_slot_4"
+        app:layout_constraintStart_toStartOf="@+id/turbo_slot_4"
+        app:layout_constraintTop_toBottomOf="@+id/turbo_slot_4"
         android:text="@string/add_driver" />
+
+
+    <ImageView
+        android:id="@+id/player_slot_5"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="100dp"
+        android:onClick="handleAddPlayerClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_2_text"
+        app:srcCompat="@drawable/blank_helmet" />
+
+    <ToggleButton
+        android:id="@+id/turbo_slot_5"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="false"
+        android:enabled="false"
+        android:onClick="handleTurboChange"
+        android:textOff="TD"
+        android:textOn="TD 🔥"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/player_slot_5"
+        app:layout_constraintStart_toStartOf="@+id/player_slot_5"
+        app:layout_constraintTop_toBottomOf="@+id/player_slot_5" />
 
     <TextView
         android:id="@+id/player_slot_5_text"
@@ -31,9 +191,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/player_slot_5"
-        app:layout_constraintStart_toStartOf="@+id/player_slot_5"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_5"
+        app:layout_constraintEnd_toEndOf="@+id/turbo_slot_5"
+        app:layout_constraintStart_toStartOf="@+id/turbo_slot_5"
+        app:layout_constraintTop_toBottomOf="@+id/turbo_slot_5"
         android:text="@string/add_driver" />
 
     <TextView
@@ -50,8 +210,8 @@
 
     <ImageView
         android:id="@+id/constructor_slot"
-        android:layout_width="160dp"
-        android:layout_height="131dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         android:layout_marginTop="56dp"
         android:onClick="handleAddPlayerClick"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,61 +219,7 @@
         app:layout_constraintTop_toBottomOf="@+id/player_slot_5"
         app:srcCompat="@drawable/blank_f1_car" />
 
-    <ImageView
-        android:id="@+id/player_slot_1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
-        android:onClick="handleAddPlayerClick"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_home2"
-        app:srcCompat="@drawable/blank_helmet" />
 
-    <ImageView
-        android:id="@+id/player_slot_4"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="68dp"
-        android:onClick="handleAddPlayerClick"
-        app:layout_constraintEnd_toStartOf="@+id/player_slot_5"
-        app:layout_constraintHorizontal_bias="0.649"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_2"
-        app:srcCompat="@drawable/blank_helmet" />
-
-    <ImageView
-        android:id="@+id/player_slot_5"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="100dp"
-        android:onClick="handleAddPlayerClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_2"
-        app:srcCompat="@drawable/blank_helmet" />
-
-    <ImageView
-        android:id="@+id/player_slot_2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="20dp"
-        android:onClick="handleAddPlayerClick"
-        app:layout_constraintEnd_toStartOf="@+id/player_slot_3"
-        app:layout_constraintStart_toEndOf="@+id/player_slot_1"
-        app:layout_constraintTop_toBottomOf="@id/header_home2"
-        app:srcCompat="@drawable/blank_helmet" />
-
-    <ImageView
-        android:id="@+id/player_slot_3"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="36dp"
-        android:onClick="handleAddPlayerClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_home2"
-        app:srcCompat="@drawable/blank_helmet" />
 
     <Button
         android:id="@+id/button_continue"
@@ -166,39 +272,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/reset_button"
         />
-
-    <TextView
-        android:id="@+id/player_slot_2_text"
-        style="@style/Row_Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/player_slot_2"
-        app:layout_constraintStart_toStartOf="@+id/player_slot_2"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_2"
-        android:text="@string/add_driver" />
-
-    <TextView
-        android:id="@+id/player_slot_3_text"
-        style="@style/Row_Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/player_slot_3"
-        app:layout_constraintStart_toStartOf="@+id/player_slot_3"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_3"
-        android:text="@string/add_driver" />
-
-    <TextView
-        android:id="@+id/player_slot_1_text"
-        style="@style/Row_Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/player_slot_1"
-        app:layout_constraintStart_toStartOf="@+id/player_slot_1"
-        app:layout_constraintTop_toBottomOf="@+id/player_slot_1"
-        android:text="@string/add_driver" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

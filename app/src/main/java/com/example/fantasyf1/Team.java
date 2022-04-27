@@ -71,12 +71,14 @@ public class Team implements Serializable {
      */
     public Team(Team team) {
         this.players = new ArrayList<Player>(team.players);
+        this.substitutions = new ArrayList<PlayerTransaction>(team.substitutions);
         this.userID = team.userID;
         this.wildcardID = team.wildcardID;
         this.turboID = team.turboID;
         this.megaID = team.megaID;
         this.gamePeriod = team.gamePeriod;
-
+        this.name = team.name;
+        this.parentID = team.parentID;
         this.points = team.points;
         this.slot = team.slot;
         this.score = team.score;
@@ -165,34 +167,38 @@ public class Team implements Serializable {
         // inner JSON object
         JSONObject picked_team = new JSONObject();
         try {
+            picked_team.put("parent_id", this.parentID == null ? JSONObject.NULL : parentID);
+            picked_team.put("slot", this.slot);
+            picked_team.put("name", this.name);
+            picked_team.put("game_period_id", 5);
+            picked_team.put("user_id", this.userID);
+
             // java is incredibly obnoxious just let me have null values >:(((((((((
-            if(this.turboID == -1) {
+            if (this.turboID == NO_VALUE) {
                 picked_team.put("boosted_player_id", JSONObject.NULL);
             } else {
                 picked_team.put("boosted_player_id", this.turboID);
             }
-            if(this.megaID == -1) {
+            if (this.megaID == NO_VALUE) {
                 picked_team.put("mega_boosted_player_id", JSONObject.NULL);
                 picked_team.put("mega_player_booster_selected_id", JSONObject.NULL);
             } else {
                 picked_team.put("mega_boosted_player_id", this.megaID);
                 picked_team.put("mega_player_booster_selected_id", this.megaID);
             }
-            if(this.wildcardID == -1) {
+
+            if (this.wildcardID == NO_VALUE) {
                 picked_team.put("wildcard_selected_id", JSONObject.NULL);
             } else {
                 picked_team.put("wildcard_selected_id", this.wildcardID);
             }
 
-
-            picked_team.put("cancel_mega_player_booster", false);
-            picked_team.put("cancel_wildcard", false);
-            // @TODO CHANGE we need to get the game period from api or somewhere
-            picked_team.put("game_period_id", 5);
-            picked_team.put("name", this.name);
-            picked_team.put("parent_id", this.parentID);
-            picked_team.put("slot", this.slot);
-            picked_team.put("user_id", this.userID);
+            // add the subs
+            JSONArray subs = new JSONArray();
+            for (PlayerTransaction sub : this.substitutions) {
+                subs.put(sub.toJSON());
+            }
+            picked_team.put("substitutions", subs);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,17 +234,12 @@ public class Team implements Serializable {
         // add the players and wrap the entire object
         try {
             picked_team.put("picked_players", picked_players);
-            // add the subs
-            JSONArray subs = new JSONArray();
-            for(PlayerTransaction sub : this.substitutions) {
-                subs.put(sub.toJSON());
-            }
-            picked_team.put("substitutions", subs);
-
+            picked_team.put("cancel_mega_player_booster", false);
+            picked_team.put("cancel_wildcard", false);
 
             //wrap the object
             payload.put("picked_team", picked_team);
-            payload.put("captcha_token", null);
+            payload.put("captcha_token", JSONObject.NULL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -353,10 +354,15 @@ public class Team implements Serializable {
     public boolean equals(Object o) {
         if (o instanceof Team) {
             Team obj = (Team) o;
+            // check player equality
             for (Player player : obj.players) {
                 if (!this.playerInTeam(player)) {
                     return false;
                 }
+            }
+            // check turbo equality
+            if (this.turboID != obj.turboID) {
+                return false;
             }
             return true;
         }
