@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
     @Override
     public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
         // bad
-        if(statusCode > 400) {
+        if (statusCode > 400) {
             Toast.makeText(this, "Error Retrieving " + respType.toString(), Toast.LENGTH_SHORT).show();
         }
 
@@ -48,25 +49,29 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 parseUser();
                 setTeamList();
                 // a user can have a max of 3 teams
+                System.out.println(teams.size());
                 Button createTeamButton = findViewById(R.id.create_team_button);
-                if(teams.size() < 3) {
-                    createTeamButton.setVisibility(View.VISIBLE);
+                if (teams.size() < 3) {
+                    createTeamButton.setEnabled(true);
                 } else {
-                    createTeamButton.setVisibility(View.GONE);
+                    createTeamButton.setEnabled(false);
                 }
                 Button leaguesButton = findViewById(R.id.button_user_leagues);
-                if(teams.size() > 0) {
-                    leaguesButton.setVisibility(View.VISIBLE);
+                if (teams.size() > 0) {
+                    leaguesButton.setEnabled(true);
                 } else {
-                    leaguesButton.setVisibility(View.GONE);
+                    leaguesButton.setEnabled(false);
                 }
+                setLoading(false);
                 break;
         }
     }
 
+    // loading by default
     FantasyManager manager = new FantasyManager();
     SettingsFragment settingsFragment;
     HelpFragment helpFragment;
+
 
     HashMap<String, JSONObject> jsonResponses = new HashMap<>();
     HashMap<Integer, Player> players = new HashMap<>();
@@ -82,23 +87,25 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         manager.getUser(this::onFinish);
 
         setContentView(R.layout.activity_homepage);
+        setLoading(true);
     }
 
     /**
      * on click handler function for any on click event in HomepageActivity. performs appropriate
      * actions depending on what onClick fired
+     *
      * @param view
      */
     public void onClickHandler(View view) {
         switch (view.getId()) {
             case R.id.image_settings:
-                 settingsFragment = new SettingsFragment();
-                 settingsFragment.setContainerActivity(this);
-                 getSupportFragmentManager().beginTransaction()
-                         .replace(R.id.layout_home_page, settingsFragment)
-                         .addToBackStack(null)
-                         .commit();
-                 break;
+                settingsFragment = new SettingsFragment();
+                settingsFragment.setContainerActivity(this);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_home_page, settingsFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
             case R.id.row_team:
                 ListView listView = (ListView) view.getParent();
                 // slots are 1-indexed
@@ -127,6 +134,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
     /**
      * onClick handler for settingsFragment
+     *
      * @param view
      */
     public void settingsFragmentHandler(View view) {
@@ -153,7 +161,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 Player player = new Player(jsonPlayer);
                 players.put(player.id, player);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -178,7 +188,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
                 team.players = tempList;
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -194,7 +206,9 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 teams.get(i + 1).points = pickedTeams.getDouble("slot_" + (i + 1));
             }
 
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -205,6 +219,15 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
 
         teamAdapter = new TeamAdapter(this, R.layout.row_team, new ArrayList<>(teams.values()));
         listView.setAdapter(teamAdapter);
+    }
+
+    private void setLoading(boolean loading) {
+        ProgressBar bar = findViewById(R.id.loading_bar);
+        if (loading) {
+            bar.setVisibility(View.VISIBLE);
+        } else {
+            bar.setVisibility(View.INVISIBLE);
+        }
     }
 
 }

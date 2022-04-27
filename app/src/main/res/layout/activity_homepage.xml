@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_home_page"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_home_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomepageActivity">
@@ -13,35 +13,45 @@
 
         <Button
             android:id="@+id/create_team_button"
+            style="@style/Button"
             android:layout_width="150dp"
             android:layout_height="65dp"
             android:layout_marginStart="50dp"
-            android:layout_marginBottom="30dp"
-            style="@style/Button"
+            android:layout_marginBottom="50dp"
+            android:enabled="false"
             android:text="Create Team"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listview_teams_homepage" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_user_leagues"
+            style="@style/Button"
             android:layout_width="150dp"
             android:layout_height="65dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="50dp"
+            android:enabled="false"
             android:onClick="onClickHandler"
-            style="@style/Button"
             android:text="Leagues"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listview_teams_homepage" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/header_home"
             style="@style/H1"
             android:text="Home" />
+
+        <ProgressBar
+            android:id="@+id/loading_bar"
+            style="?android:attr/progressBarStyleLarge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ProgressBar>
 
         <ImageView
             android:id="@+id/image_settings"
@@ -60,11 +70,11 @@
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:gravity="center"
-            android:text="?"
             android:onClick="onClickHandler"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="?"
             app:layout_constraintBottom_toBottomOf="@+id/image_settings"
-            app:layout_constraintRight_toLeftOf="@+id/image_settings"/>
+            app:layout_constraintRight_toLeftOf="@+id/image_settings"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
             android:id="@+id/listview_teams_homepage"
