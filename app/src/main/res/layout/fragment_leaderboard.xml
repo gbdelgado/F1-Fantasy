@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LeaderboardFragment"
+    style="@style/Frame_Layout">
+
+    <TextView
+        android:id="@+id/header_leaderboard"
+        style="@style/H1"
+        android:text="Leaderboard"/>
+
+    <ListView
+        android:id="@+id/listview_leaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="67dp"
+        style="@style/Frame_Layout" />
+
+</FrameLayout>

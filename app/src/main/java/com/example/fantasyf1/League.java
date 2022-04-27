@@ -1,5 +1,6 @@
 package com.example.fantasyf1;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -10,8 +11,8 @@ public class League implements Serializable {
     public String name;
     public String imageURL = "https://f1-backend-image-uploads-container.s3.amazonaws.com/whitelabel_multi_sport/f1/production/season_2022_1/league_image_sets/cover_image/6/F1-2022-Default-Cover-1.jpg";
     public String code;
-    public String id;
 
+    public int id;
     public int userRank;
     public int totalEntrants;
     public int usedTeamSlotNum;
@@ -27,7 +28,7 @@ public class League implements Serializable {
             JSONObject details = json.getJSONObject("league");
             name = details.getString("name");
             code = details.getString("code");
-            id = details.getString("id");
+            id = details.getInt("id");
 
             totalEntrants = details.getInt("entrants_count");
             maxTeamLimit = details.getInt("multi_entry_limit");
@@ -43,12 +44,20 @@ public class League implements Serializable {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    public void buildEntrantList(JSONObject json) {
-        // here parse json
+    public void buildEntrantList(JSONArray arr) {
+        entrants = new User[arr.length()];
+
+        try {
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject jsonUser = (JSONObject) arr.get(i);
+                User user = new User(jsonUser);
+                entrants[i] = user;
+            }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     // this is from /leagues&league_id=123456
-    private class User implements Serializable {
+    public class User implements Serializable {
 
         public String name;
         public String teamName;
@@ -58,7 +67,14 @@ public class League implements Serializable {
         public int teamSlot;
 
         public User(JSONObject json) {
-            // parse json here
+            try {
+                name = json.getString("username");
+                teamName = json.getString("team_name");
+
+                rank = json.getInt("rank");
+                score = json.getInt("score");
+                teamSlot = json.getInt("slot");
+            } catch (Exception e) { e.printStackTrace(); }
         }
 
     }
