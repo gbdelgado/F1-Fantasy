@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="@+id/player_slot_4"
         app:layout_constraintStart_toStartOf="@+id/player_slot_4"
         app:layout_constraintTop_toBottomOf="@+id/player_slot_4"
-        tools:text="Add Driver" />
+        android:text="@string/add_driver" />
 
     <TextView
         android:id="@+id/player_slot_5_text"
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="@+id/player_slot_5"
         app:layout_constraintStart_toStartOf="@+id/player_slot_5"
         app:layout_constraintTop_toBottomOf="@+id/player_slot_5"
-        tools:text="Add Driver" />
+        android:text="@string/add_driver" />
 
     <TextView
         android:id="@+id/constructor_slot_text"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constructor_slot"
-        tools:text="Add Constructor" />
+        android:text="@string/add_constructor" />
 
 
     <ImageView
@@ -151,9 +151,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/reset_button"
-        app:layout_constraintStart_toEndOf="@+id/button_continue"
-        app:layout_constraintTop_toBottomOf="@id/button_continue" />
+        app:layout_constraintEnd_toStartOf="@+id/remaining_cash_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_continue"
+        />
+
+    <TextView
+        android:id="@+id/remaining_cash_text"
+        style="@style/Row_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/subs_left_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reset_button"
+        />
 
     <TextView
         android:id="@+id/player_slot_2_text"
@@ -164,7 +176,7 @@
         app:layout_constraintEnd_toEndOf="@+id/player_slot_2"
         app:layout_constraintStart_toStartOf="@+id/player_slot_2"
         app:layout_constraintTop_toBottomOf="@+id/player_slot_2"
-        tools:text="Add Driver" />
+        android:text="@string/add_driver" />
 
     <TextView
         android:id="@+id/player_slot_3_text"
@@ -175,7 +187,7 @@
         app:layout_constraintEnd_toEndOf="@+id/player_slot_3"
         app:layout_constraintStart_toStartOf="@+id/player_slot_3"
         app:layout_constraintTop_toBottomOf="@+id/player_slot_3"
-        tools:text="Add Driver" />
+        android:text="@string/add_driver" />
 
     <TextView
         android:id="@+id/player_slot_1_text"
@@ -186,7 +198,7 @@
         app:layout_constraintEnd_toEndOf="@+id/player_slot_1"
         app:layout_constraintStart_toStartOf="@+id/player_slot_1"
         app:layout_constraintTop_toBottomOf="@+id/player_slot_1"
-        tools:text="Add Driver" />
+        android:text="@string/add_driver" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

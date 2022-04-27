@@ -12,13 +12,14 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/create_team_button"
+            android:id="@+id/button_create_team"
             style="@style/Button"
             android:layout_width="150dp"
             android:layout_height="65dp"
             android:layout_marginStart="50dp"
             android:layout_marginBottom="50dp"
             android:enabled="false"
+            android:onClick="onClickHandler"
             android:text="Create Team"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
