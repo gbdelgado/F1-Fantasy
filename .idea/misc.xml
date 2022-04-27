@@ -20,11 +20,14 @@
         <entry key="app/src/main/res/layout/activity_player_list.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/fragment_create_team.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/fragment_help.xml" value="0.5635416666666667" />
+        <entry key="app/src/main/res/layout/fragment_leaderboard.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/fragment_loading_screen.xml" value="0.5494791666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.5635416666666667" />
+        <entry key="app/src/main/res/layout/fragment_player_list.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_team_card.xml" value="0.5494791666666666" />
         <entry key="app/src/main/res/layout/fragment_webview.xml" value="0.5494791666666666" />
+        <entry key="app/src/main/res/layout/row_entrant.xml" value="0.5494791666666666" />
         <entry key="app/src/main/res/layout/row_league.xml" value="0.5" />
         <entry key="app/src/main/res/layout/row_player.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/team_list_row.xml" value="0.5494791666666666" />
