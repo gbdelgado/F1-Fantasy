@@ -1,18 +1,13 @@
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -20,8 +15,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 public class HomepageActivity extends AppCompatActivity implements APICallback {
@@ -50,7 +43,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 setTeamList();
                 // a user can have a max of 3 teams
                 System.out.println(teams.size());
-                Button createTeamButton = findViewById(R.id.create_team_button);
+                Button createTeamButton = findViewById(R.id.button_create_team);
                 if (teams.size() < 3) {
                     createTeamButton.setEnabled(true);
                 } else {
@@ -67,7 +60,8 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         }
     }
 
-    // loading by default
+    private String userID = null;
+
     FantasyManager manager = new FantasyManager();
     SettingsFragment settingsFragment;
     HelpFragment helpFragment;
@@ -126,6 +120,16 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
             case R.id.button_user_leagues:
                 Intent anotherIntent = new Intent(this, LeaguesActivity.class);
                 this.startActivity(anotherIntent);
+                break;
+            case R.id.button_create_team:
+                Intent anotherAnotherIntent = new Intent(this, CreateTeamActivity.class);
+                // set create mode active
+                anotherAnotherIntent.putExtra("CREATE_MODE", true);
+                anotherAnotherIntent.putExtra("PLAYERS", players);
+                // only needs to be set when create mode is enabled
+                anotherAnotherIntent.putExtra("SLOT", teams.values().size() + 1);
+                anotherAnotherIntent.putExtra("USER_ID", userID);
+                this.startActivity(anotherAnotherIntent);
                 break;
             default:
                 System.out.println("");
@@ -201,6 +205,11 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
             JSONObject pickedTeams = jsonResponses.get("user")
                     .getJSONObject("user")
                     .getJSONObject("picked_team_score_totals");
+
+            // also set the user id here, if a user has no teams this is the only way to get it
+            String user_id = jsonResponses.get("user")
+                    .getString("global_id");
+            userID = user_id;
 
             for (int i = 0; i < teams.size(); i++) {
                 teams.get(i + 1).points = pickedTeams.getDouble("slot_" + (i + 1));

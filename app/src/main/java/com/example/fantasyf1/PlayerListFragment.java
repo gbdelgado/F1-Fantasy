@@ -19,6 +19,7 @@ public class PlayerListFragment extends Fragment {
     PlayerAdapter playerAdapter;
     Team team;
     Player playerOut;
+    boolean createMode;
 
     public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
@@ -59,7 +60,12 @@ public class PlayerListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // get the id of the player they clicked
                 playerIn = (Player) adapterView.getItemAtPosition(i);
-                team.swapPlayer(playerIn, playerOut);
+                if(playerOut != null) {
+                    team.swapPlayer(playerIn, playerOut);
+                } else {
+                    team.addPlayer(playerIn);
+                }
+
                 // return to the team selection
                 ((CreateTeamActivity) containerActivity).getSupportFragmentManager()
                         .popBackStack();

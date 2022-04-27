@@ -58,6 +58,8 @@ public class PlayerListActivity extends AppCompatActivity {
     public void handleModifyClick(View view) {
         // start the create/modify team activity
         Intent intent = new Intent(this, CreateTeamActivity.class);
+        // we are not creating a new team
+        intent.putExtra("CREATE_MODE", false);
         intent.putExtra("TEAM", team);
         intent.putExtra("PLAYERS", players);
         this.startActivity(intent);
