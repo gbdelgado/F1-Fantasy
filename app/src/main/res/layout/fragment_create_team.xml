@@ -125,7 +125,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constructor_slot" />
+        app:layout_constraintTop_toBottomOf="@+id/constructor_slot"
+        android:onClick="handleModifyTeamClick"/>
 
     <TextView
         android:id="@+id/player_slot_2_text"

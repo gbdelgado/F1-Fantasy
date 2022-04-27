@@ -42,12 +42,28 @@ public class Player implements Serializable {
 
             JSONObject images = (JSONObject) obj.get("headshot");
             imageURL = images.getString("profile");
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Object> getPlayerListRow() {
         // return fields needed for each player row within a team list
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Player) {
+            Player obj = (Player) o;
+            return obj.id == this.id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 69 * this.id;
     }
 
 }

@@ -1,10 +1,14 @@
 package com.example.fantasyf1;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 // from /picked_teams
 public class Team implements Serializable {
@@ -12,6 +16,7 @@ public class Team implements Serializable {
     public ArrayList<Player> players;
     public ArrayList<PlayerTransaction> substitutions;
 
+    public int id;
     public String name;
     public String parentID = null;
     public String userID;
@@ -28,19 +33,18 @@ public class Team implements Serializable {
     public double value;
     public double budget;
 
-    // for transactions dont
-    Player originalConstructor;
-
 
     public Team(JSONObject obj) {
         // parse and set fields
         try {
+            id = obj.getInt("id");
             slot = obj.getInt("slot");
             name = obj.getString("name");
 
+            // we need actual nulls to match the API payload so make sure to replace them later
             wildcardID = obj.optInt("wildcard_selected_id", -1);
             turboID = obj.optInt("boosted_player_id", -1);
-            megaID = obj.optInt("mega_boosted_player_id", -1);
+            megaID = obj.optInt( "mega_boosted_player_id", -1);
 
             gamePeriod = obj.getInt("game_period_id");
             userID = obj.getString("user_global_id");
@@ -57,76 +61,38 @@ public class Team implements Serializable {
     }
 
     /**
-     * Adds a transaction to the substitution array. Has logic to get rid of any circular transactions.
-     * <p>
-     * Speical note here that any constructor transactions will not be added. Once the user is
-     * finished modifying their team, we will check if there has been a change in constructor and
-     * add a transaction for that change
+     * Creates a copy of an existsing team
      *
-     * @param transaction
+     * @param team
      */
-    public void addPlayerTransaction(PlayerTransaction transaction, Player playerIn) {
-        // we'll filter out constructor transactions later its easier this way
-        if (!playerIn.isConstructor) {
-            // iterate through the substitutions and see if this transaction already exists
-            boolean foundCircle = false;
-            for (PlayerTransaction action : substitutions) {
-                // circular transaction check
-                if (action.playerIDIn == transaction.playerIDOut && action.playerIDOut == transaction.playerIDIn) {
-                    /**
-                     * circular transaction means there was no 'real' change in the team
-                     * Ex I sub yuki for kevin, the kevin for yuki,
-                     * yuki is still in my team and kevin is not
-                     *
-                     * remove the current transaction
-                     */
-                    substitutions.remove(action);
-                    foundCircle = true;
-                    break;
-                }
-            }
-            if (!foundCircle) {
-                // if we made it here we the transaction is new
-                substitutions.add(transaction);
-            }
-        }
-        // add the player to the actual list now
-        this.addPlayer(playerIn, transaction);
-        System.out.println(substitutions.toString());
+    public Team(Team team) {
+        this.players = new ArrayList<Player>(team.players);
+        this.userID = team.userID;
+        this.wildcardID = team.wildcardID;
+        this.turboID = team.turboID;
+        this.megaID = team.megaID;
+        this.gamePeriod = team.gamePeriod;
+
+        this.points = team.points;
+        this.slot = team.slot;
+        this.score = team.score;
+        this.totalWeeklySubs = team.totalWeeklySubs;
+        this.remainingWeeklySubs = team.remainingWeeklySubs;
+        this.value = team.value;
+        this.budget = team.budget;
     }
 
     /**
-     * Removes old player and adds new one
+     * Swaps a player, DOES NOT VERIFY IF THE PLAYER IS ALREADY IN THE TEAM CHECK BEFORE AHHHHHH >:(
      *
      * @param playerIn
-     * @param transaction
-     * @NOTE I NEED TO UPDATE THE LOGIC FOR WHEN WE ACTUALL HAVE A NEW CREATION
+     * @param playerOut
      */
-    private void addPlayer(Player playerIn, PlayerTransaction transaction) {
+    public void swapPlayer(Player playerIn, Player playerOut) {
         // out with old
-        players.removeIf(e -> e.id == transaction.playerIDOut);
+        players.removeIf(e -> e.id == playerOut.id);
         // in with new
         players.add(playerIn);
-    }
-
-    /**
-     * Creates a transaction for the constructor if there was one
-     */
-    private void filterConstructorTransactions() {
-        // find the constructor
-        Player newConstructor = null;
-        for (Player player : players) {
-            if (player.isConstructor) {
-                newConstructor = player;
-                break;
-            }
-        }
-
-        // if they are different create a transaction and add it to transaction list
-        if (newConstructor.id != originalConstructor.id) {
-            PlayerTransaction sub = new PlayerTransaction(newConstructor.id, originalConstructor.id);
-            substitutions.add(sub);
-        }
     }
 
     /**
@@ -153,18 +119,34 @@ public class Team implements Serializable {
         // inner JSON object
         JSONObject picked_team = new JSONObject();
         try {
-            picked_team.put("boosted_player_id", this.turboID);
+            // java is incredibly obnoxious just let me have null values >:(((((((((
+            if(this.turboID == -1) {
+                picked_team.put("boosted_player_id", JSONObject.NULL);
+            } else {
+                picked_team.put("boosted_player_id", this.turboID);
+            }
+            if(this.megaID == -1) {
+                picked_team.put("mega_boosted_player_id", JSONObject.NULL);
+                picked_team.put("mega_player_booster_selected_id", JSONObject.NULL);
+            } else {
+                picked_team.put("mega_boosted_player_id", this.megaID);
+                picked_team.put("mega_player_booster_selected_id", this.megaID);
+            }
+            if(this.wildcardID == -1) {
+                picked_team.put("wildcard_selected_id", JSONObject.NULL);
+            } else {
+                picked_team.put("wildcard_selected_id", this.wildcardID);
+            }
+
+
             picked_team.put("cancel_mega_player_booster", false);
             picked_team.put("cancel_wildcard", false);
             // @TODO CHANGE we need to get the game period from api or somewhere
             picked_team.put("game_period_id", 5);
-            picked_team.put("mega_boosted_player_id", this.megaID);
-            picked_team.put("mega_player_booster_selected_id", this.megaID);
             picked_team.put("name", this.name);
             picked_team.put("parent_id", this.parentID);
             picked_team.put("slot", this.slot);
             picked_team.put("user_id", this.userID);
-            picked_team.put("wildcard_selected_id", this.wildcardID);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,8 +177,14 @@ public class Team implements Serializable {
         // add the players and wrap the entire object
         try {
             picked_team.put("picked_players", picked_players);
-            // @TODO CHANGE TO ACTUALLY HAVE SUBTITUTITONS
-            picked_team.put("substitutions", new JSONArray());
+            // add the subs
+            JSONArray subs = new JSONArray();
+            for(PlayerTransaction sub : this.substitutions) {
+                subs.put(sub.toJSON());
+            }
+            picked_team.put("substitutions", subs);
+
+
             //wrap the object
             payload.put("picked_team", picked_team);
             payload.put("captcha_token", null);
@@ -207,5 +195,89 @@ public class Team implements Serializable {
         return payload;
     }
 
+    /**
+     * Computes the set difference of the players between this team and another being
+     * this.players - newTeam.players
+     * then makes the transaction list
+     *
+     * @return
+     */
+    public void computeTransactions(Team newTeam) {
+        // compute teamA diff
+        HashSet<Player> teamADiff = new HashSet<Player>(this.players);
+        HashSet<Player> teamB = new HashSet<Player>(newTeam.players);
+        teamADiff.removeAll(teamB);
+
+        // compute teamBDiff
+        HashSet<Player> teamBDiff = new HashSet<Player>(newTeam.players);
+        HashSet<Player> teamA = new HashSet<Player>(this.players);
+        teamBDiff.removeAll(teamA);
+
+        System.out.println("----------------");
+        System.out.println("TEAM A");
+        for (Player p : teamA) {
+            System.out.println(p.displayName);
+        }
+        System.out.println("---------------");
+        System.out.println("TEAM B");
+        for (Player p : teamB) {
+            System.out.println(p.displayName);
+        }
+        System.out.println("---------------");
+        System.out.println("TEAM A - TEAM B");
+        for (Player p : teamADiff) {
+            System.out.println(p.displayName);
+        }
+        System.out.println("---------------");
+        System.out.println("TEAM B - TEAM A");
+        for (Player p : teamBDiff) {
+            System.out.println(p.displayName);
+        }
+        System.out.println("---------------");
+        System.out.println(this.substitutions);
+
+        while (teamADiff.size() > 0) {
+            Player playerOut = teamADiff.iterator().next();
+            Player playerIn = teamBDiff.iterator().next();
+            // add transaction
+            this.substitutions.add(new PlayerTransaction(playerIn.id, playerOut.id));
+            // pop the players
+            teamADiff.remove(playerOut);
+            teamBDiff.remove(playerIn);
+        }
+
+        for (PlayerTransaction trans : this.substitutions) {
+            System.out.println("Player In: " + trans.playerIDIn + " Player Out: " + trans.playerIDOut);
+        }
+
+    }
+
+    /**
+     * because java JSON is annoying and doesn't allow null values
+     */
+    public static int optInt(JSONObject obj, String key) throws JSONException {
+        return obj.isNull(key) ? null : obj.getInt(key);
+    }
+
+    /**
+     * Two teams are equal if they share the same TEAM PLAYERS ONLY
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Team) {
+            Team obj = (Team) o;
+            for (Player player : obj.players) {
+                if (!this.playerInTeam(player)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
 
 }

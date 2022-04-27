@@ -158,10 +158,6 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                     JSONObject jsonPlayer = playersArr.getJSONObject(j);
                     Player player = players.get(jsonPlayer.getInt("player_id"));
                     tempList.add(player);
-                    // for circular checks in transactions later
-                    if(player.isConstructor) {
-                        team.originalConstructor = player;
-                    }
                 }
 
                 team.players = tempList;

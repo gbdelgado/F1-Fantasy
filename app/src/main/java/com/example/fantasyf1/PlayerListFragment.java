@@ -50,10 +50,7 @@ public class PlayerListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // get the id of the player they clicked
                 playerIn = (Player) adapterView.getItemAtPosition(i);
-                // start the transaction
-                PlayerTransaction transaction = new PlayerTransaction(playerIn.id, playerOut.id);
-                System.out.println(transaction.playerIDIn);
-                team.addPlayerTransaction(transaction, playerIn);
+                team.swapPlayer(playerIn, playerOut);
                 // return to the team selection
                 ((CreateTeamActivity) containerActivity).getSupportFragmentManager()
                         .popBackStack();
