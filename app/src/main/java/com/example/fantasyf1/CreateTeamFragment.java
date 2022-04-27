@@ -72,6 +72,9 @@ public class CreateTeamFragment extends Fragment {
             // set the text for driver/constructor
             text.setText(player.displayName);
         }
+        // also set the amount of subs they have left
+        TextView subs = v.findViewById(R.id.subs_left_text);
+        subs.setText("Subs Left: " + team.remainingWeeklySubs);
     }
 
 

@@ -28,6 +28,15 @@ public class PlayerListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Tells the event listener that something might have changed
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((CreateTeamActivity) containerActivity).checkTeamEquality();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

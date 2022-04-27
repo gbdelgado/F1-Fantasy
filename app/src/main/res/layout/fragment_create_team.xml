@@ -96,8 +96,8 @@
     <ImageView
         android:id="@+id/player_slot_2"
         android:layout_width="80dp"
-        android:layout_marginTop="20dp"
         android:layout_height="80dp"
+        android:layout_marginTop="20dp"
         android:onClick="handleAddPlayerClick"
         app:layout_constraintEnd_toStartOf="@+id/player_slot_3"
         app:layout_constraintStart_toEndOf="@+id/player_slot_1"
@@ -116,17 +116,44 @@
         app:srcCompat="@drawable/blank_helmet" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_continue"
         style="@style/Button"
         android:layout_width="150dp"
         android:layout_height="65dp"
         android:layout_marginTop="52dp"
+        android:layout_marginBottom="20dp"
+        android:enabled="false"
+        android:onClick="handleModifyTeamClick"
         android:text="Continue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/reset_button"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constructor_slot"
-        android:onClick="handleModifyTeamClick"/>
+        app:layout_constraintTop_toBottomOf="@+id/constructor_slot" />
+
+    <Button
+        android:id="@+id/reset_button"
+        style="@style/Button"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:text="Reset"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="handleReset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_continue"
+        app:layout_constraintTop_toBottomOf="@id/constructor_slot" />
+
+    <TextView
+        android:id="@+id/subs_left_text"
+        style="@style/Row_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/reset_button"
+        app:layout_constraintStart_toEndOf="@+id/button_continue"
+        app:layout_constraintTop_toBottomOf="@id/button_continue" />
 
     <TextView
         android:id="@+id/player_slot_2_text"
@@ -160,15 +187,6 @@
         app:layout_constraintStart_toStartOf="@+id/player_slot_1"
         app:layout_constraintTop_toBottomOf="@+id/player_slot_1"
         tools:text="Add Driver" />
-
-
-    <LinearLayout
-        android:id="@+id/activity_create_team_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

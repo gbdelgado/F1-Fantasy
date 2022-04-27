@@ -18,7 +18,7 @@ public class Team implements Serializable {
 
     public int id;
     public String name;
-    public String parentID = null;
+    public String parentID;
     public String userID;
     public int wildcardID;
     public int turboID;
@@ -48,6 +48,7 @@ public class Team implements Serializable {
 
             gamePeriod = obj.getInt("game_period_id");
             userID = obj.getString("user_global_id");
+            parentID = obj.getString("global_id");
 
             score = obj.getDouble("score");
             totalWeeklySubs = obj.getInt("total_num_weekly_subs");
@@ -108,7 +109,8 @@ public class Team implements Serializable {
 
     /**
      * Forms a JSON payload to match the picked_teams route for updating
-     *
+     * @NOTE wierd but all of the keys in the payload ARE STRINGS EXCEPT FOR SLOT
+     * this differes from the format of the response, super cool why would they be consistent  :shrug:
      * @return
      */
     public JSONObject toJSON() {
@@ -154,21 +156,26 @@ public class Team implements Serializable {
 
         // transform players array into json
         JSONArray picked_players = new JSONArray();
-        for (int slot = 0; slot < this.players.size(); slot++) {
+        int currDriverSlot = 1;
+        for (Player player : this.players) {
             JSONObject picked_player = new JSONObject();
             try {
                 // position_id == if they are constructor or driver
-                int position_id = players.get(slot).isConstructor ? 2 : 1;
+                int position_id = player.isConstructor ? 2 : 1;
                 // constructor slots are always 1
-                int realSlot = players.get(slot).isConstructor ? 1 : slot + 1;
+                int realSlot = player.isConstructor ? 1 : currDriverSlot;
 
                 // slots are 1-indexed
-                picked_player.put("slot", realSlot);
-                picked_player.put("player_id", this.players.get(slot).id);
-                picked_player.put("position_id", position_id);
+                picked_player.put("player_id", String.valueOf(player.id));
+                picked_player.put("position_id", String.valueOf(position_id));
+                picked_player.put("slot", String.valueOf(realSlot));
 
                 // add it to the picked_players array
                 picked_players.put(picked_player);
+                // only increment if this was a driver
+                if(!player.isConstructor) {
+                    currDriverSlot++;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -202,7 +209,7 @@ public class Team implements Serializable {
      *
      * @return
      */
-    public void computeTransactions(Team newTeam) {
+    public void computeTransactions(Team newTeam) throws IllegalArgumentException {
         // compute teamA diff
         HashSet<Player> teamADiff = new HashSet<Player>(this.players);
         HashSet<Player> teamB = new HashSet<Player>(newTeam.players);
@@ -236,6 +243,11 @@ public class Team implements Serializable {
         System.out.println("---------------");
         System.out.println(this.substitutions);
 
+        //special check if they have exceeded their subs amount
+        if(teamADiff.size() > this.remainingWeeklySubs) {
+            throw new IllegalArgumentException("Subs exceeded");
+        }
+
         while (teamADiff.size() > 0) {
             Player playerOut = teamADiff.iterator().next();
             Player playerIn = teamBDiff.iterator().next();
@@ -249,7 +261,8 @@ public class Team implements Serializable {
         for (PlayerTransaction trans : this.substitutions) {
             System.out.println("Player In: " + trans.playerIDIn + " Player Out: " + trans.playerIDOut);
         }
-
+        //copy the players to this player
+        this.players = newTeam.players;
     }
 
     /**

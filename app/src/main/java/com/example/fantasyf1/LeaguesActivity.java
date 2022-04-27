@@ -15,7 +15,7 @@ import java.util.Locale;
 public class LeaguesActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
 

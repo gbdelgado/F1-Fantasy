@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +26,12 @@ import java.util.Locale;
 public class HomepageActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
+        // bad
+        if(statusCode > 400) {
+            Toast.makeText(this, "Error Retrieving " + respType.toString(), Toast.LENGTH_SHORT).show();
+        }
+
         System.out.println("JSON OUT");
         System.out.println(response.toString());
 

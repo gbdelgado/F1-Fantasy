@@ -21,7 +21,7 @@ import java.net.CookieHandler;
 public class MainActivity extends AppCompatActivity implements APICallback {
 
     @Override
-    public void onFinish(JSONObject response, FantasyManager.ResponseType respType) {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
         System.out.println("JSON OUT");
         System.out.println(response.toString());
     }

@@ -30,11 +30,15 @@ public class PlayerTransaction {
         return false;
     }
 
+    /**
+     * Returns object represetnation in JSON for the update/create request
+     * @return
+     */
     public JSONObject toJSON() {
         try {
             JSONObject transaction = new JSONObject();
-            transaction.put("player_in_id", this.playerIDIn);
-            transaction.put("player_out_id", this.playerIDOut);
+            transaction.put("player_in_id", String.valueOf(this.playerIDIn));
+            transaction.put("player_out_id", String.valueOf(this.playerIDOut));
             return transaction;
         } catch (Exception e) {
             e.printStackTrace();

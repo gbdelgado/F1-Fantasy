@@ -43,7 +43,6 @@ public class FantasyManager {
     public FantasyManager() {
         this.loggedIn = false;
         this.setDefaultHeaders();
-
     }
 
     /**
@@ -225,6 +224,20 @@ public class FantasyManager {
     }
 
     /**
+     * Updates a team
+     * Request Type: PUT
+     *
+     * @param callback
+     * @param team
+     */
+    public void updateTeam(APICallback callback, Team team) {
+        String api_url = String.format("https://fantasy-api.formula1.com/f1/2022/picked_teams/%s?v=1", team.parentID);
+        JSONObject payload = team.toJSON();
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.PUT, ResponseType.PICKED_TEAMS, payload);
+        task.execute();
+    }
+
+    /**
      *
      */
     private class CallAPITask extends AsyncTask<String, Integer, JSONObject> {
@@ -233,6 +246,7 @@ public class FantasyManager {
         private RequestType requestType;
         private ResponseType responseType;
         private JSONObject payload;
+        private int statusCode;
 
         public CallAPITask(APICallback onFinish, String api_url, RequestType reqType, ResponseType respType) {
             this.callback = onFinish;
@@ -259,6 +273,12 @@ public class FantasyManager {
                 URL url = new URL(this.api_url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+                // form the headers
+                for (String prop : headers.keySet()) {
+                    String value = headers.get(prop);
+                    conn.addRequestProperty(prop, value);
+                }
+
                 // set request type and preflight checks
                 switch (this.requestType) {
                     case GET:
@@ -277,16 +297,20 @@ public class FantasyManager {
                         break;
                     case PUT:
                         conn.setRequestMethod(RequestType.PUT.toString());
+                        conn.setInstanceFollowRedirects(false);
+                        conn.setDoOutput(true);
+                        // Write the payload to the request
+                        try (OutputStream os = conn.getOutputStream()) {
+                            byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
+                            os.write(input, 0, input.length);
+                        }
                         break;
                     default:
                         break;
                 }
 
-                // form the headers
-                for (String prop : headers.keySet()) {
-                    String value = headers.get(prop);
-                    conn.addRequestProperty(prop, value);
-                }
+
+
 
                 System.out.println("--------- MAKING REQUEST -----------");
                 System.out.println("URL: " + this.api_url);
@@ -312,12 +336,16 @@ public class FantasyManager {
                     _is = conn.getErrorStream();
                 }
 
+                this.statusCode = conn.getResponseCode();
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(_is));
                 while ((line = in.readLine()) != null) {
                     json += line;
                 }
 
                 in.close();
+
+                conn.disconnect();
                 return new JSONObject(json);
             } catch (Exception e) {
                 System.out.println(e.getClass());
@@ -334,7 +362,7 @@ public class FantasyManager {
          */
         protected void onPostExecute(JSONObject resp) {
             // hand the JSON back to the caller
-            this.callback.onFinish(resp, this.responseType);
+            this.callback.onFinish(resp, this.responseType, this.statusCode);
         }
     }
 }

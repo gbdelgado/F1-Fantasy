@@ -2,13 +2,18 @@ package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -16,7 +21,22 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CreateTeamActivity extends AppCompatActivity {
+public class CreateTeamActivity extends AppCompatActivity implements APICallback {
+    public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
+        // bad
+        if(statusCode > 400) {
+            Toast.makeText(this, "Error Retrieving " + respType.toString(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Team Successfully Updated", Toast.LENGTH_LONG).show();
+        }
+        System.out.println("RECIEVED: " + response.toString());
+        // take them back to the main page so we can reload all the data
+        Intent intent = new Intent(this, HomepageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
     // represents the remote team thats currently in F1's api
     private Team remoteTeam;
     // represents the local team
@@ -65,7 +85,43 @@ public class CreateTeamActivity extends AppCompatActivity {
         frag.setContainerActivity(this);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.pick_player_fragment_layout, frag)
+                .replace(R.id.pick_player_fragment_layout, frag)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    /**
+     * Event listener for whenever the team is changed. It will enable the continue button if the
+     * original team differs from the new
+     */
+    public void checkTeamEquality() {
+        Button continueButton = findViewById(R.id.button_continue);
+
+        if (!remoteTeam.equals(newTeam)) {
+            continueButton.setEnabled(true);
+        } else {
+            continueButton.setEnabled(false);
+        }
+    }
+
+    /**
+     * Resets the activity to undo any changes that were made
+     */
+    public void handleReset(View view) {
+        getSupportFragmentManager().popBackStack();
+        newTeam = new Team(remoteTeam);
+        // prep the frag
+        Bundle bundle = new Bundle();
+        // all fragments will edit the LOCAL TEAM ONLY
+        bundle.putSerializable("TEAM", newTeam);
+        bundle.putSerializable("PLAYERS", this.players);
+
+        CreateTeamFragment frag = new CreateTeamFragment();
+        frag.setArguments(bundle);
+        frag.setContainerActivity(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.pick_player_fragment_layout, frag)
                 .addToBackStack(null)
                 .commit();
     }
@@ -81,6 +137,7 @@ public class CreateTeamActivity extends AppCompatActivity {
 
     /**
      * Event handler for clicking on a player
+     *
      * @param view
      */
     public void handleAddPlayerClick(View view) {
@@ -113,8 +170,15 @@ public class CreateTeamActivity extends AppCompatActivity {
 
     public void handleModifyTeamClick(View view) {
         // process the transactions and verify that the number of subs is < their available subs left
-        remoteTeam.computeTransactions(newTeam);
-        System.out.println(remoteTeam.toJSON().toString());
+        try {
+            remoteTeam.computeTransactions(newTeam);
+        } catch (IllegalArgumentException e) {
+            // this means they exceeded the number of subs
+            Toast.makeText(this, "Number of player substitutions exceeded", Toast.LENGTH_SHORT).show();
+        }
+        // make the request and reload
+        FantasyManager manager = new FantasyManager();
+        manager.updateTeam(this::onFinish, remoteTeam);
     }
 
 }
