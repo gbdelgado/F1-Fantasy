@@ -17,7 +17,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CreateTeamActivity extends AppCompatActivity {
-    private Team team;
+    // represents the remote team thats currently in F1's api
+    private Team remoteTeam;
+    // represents the local team
+    private Team newTeam;
+
     private HashMap<Integer, Player> players;
     // this helps us when we call the api, they are two different methods for updating and creating :/
     private boolean createMode;
@@ -43,14 +47,17 @@ public class CreateTeamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // load the extras
-        team = (Team) getIntent().getSerializableExtra("TEAM");
+        remoteTeam = (Team) getIntent().getSerializableExtra("TEAM");
         players = (HashMap<Integer, Player>) getIntent().getSerializableExtra("PLAYERS");
-        System.out.println(players);
+
+        // create a local team copy based off the remote (api) version of the team
+        newTeam = new Team(remoteTeam);
         setContentView(R.layout.activity_create_team);
 
         // prep the frag
         Bundle bundle = new Bundle();
-        bundle.putSerializable("TEAM", this.team);
+        // all fragments will edit the LOCAL TEAM ONLY
+        bundle.putSerializable("TEAM", newTeam);
         bundle.putSerializable("PLAYERS", this.players);
 
         CreateTeamFragment frag = new CreateTeamFragment();
@@ -72,6 +79,10 @@ public class CreateTeamActivity extends AppCompatActivity {
         this.lut = lut;
     }
 
+    /**
+     * Event handler for clicking on a player
+     * @param view
+     */
     public void handleAddPlayerClick(View view) {
         // find what player we have
         Player playerOut = lut.get(view.getId());
@@ -80,7 +91,7 @@ public class CreateTeamActivity extends AppCompatActivity {
         ArrayList<Player> toDisplay = (ArrayList<Player>) players.values().stream()
                 .filter(e -> {
                     //only include players that are not the same id but the same type and not in the same team
-                    return (e.isConstructor == playerOut.isConstructor) && (e.id != playerOut.id) && !team.playerInTeam(e);
+                    return (e.isConstructor == playerOut.isConstructor) && (e.id != playerOut.id) && !newTeam.playerInTeam(e);
                 })
                 .collect(Collectors.toList());
 
@@ -88,7 +99,7 @@ public class CreateTeamActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putSerializable("PLAYERS", toDisplay);
         bundle.putSerializable("PLAYER_OUT", playerOut);
-        bundle.putSerializable("TEAM", this.team);
+        bundle.putSerializable("TEAM", newTeam);
 
         PlayerListFragment frag = new PlayerListFragment();
         frag.setArguments(bundle);
@@ -100,5 +111,10 @@ public class CreateTeamActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void handleModifyTeamClick(View view) {
+        // process the transactions and verify that the number of subs is < their available subs left
+        remoteTeam.computeTransactions(newTeam);
+        System.out.println(remoteTeam.toJSON().toString());
+    }
 
 }
