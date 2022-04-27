@@ -31,12 +31,12 @@
             android:id="@+id/image_share"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="-5dp"
             android:src="@drawable/share"
             android:onClick="onClickHandler"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/modify_button"
+            />
 
         <ImageView
             android:id="@+id/modify_button"

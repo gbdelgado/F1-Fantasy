@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/row_league_image"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="46dp" />
 
     <TextView
         android:id="@+id/row_league_name"
@@ -16,7 +16,9 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         style="@style/Row_Text"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"/>
 
 <!--This would take a map from game_period -> race-->
 <!--    <TextView-->
@@ -31,6 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        style="@style/Row_Text" />
+        style="@style/Row_Text"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"/>
 
 </LinearLayout>
