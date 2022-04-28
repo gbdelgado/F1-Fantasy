@@ -45,7 +45,8 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
         downloadImageTask.execute();
 
         TextView name = (TextView) view.findViewById(R.id.row_player_name);
-        name.setText(player.displayName);
+        String nameText = player.turbo ? player.displayName + "\uD83D\uDD25" : player.displayName;
+        name.setText(nameText);
 
         TextView points = (TextView) view.findViewById(R.id.row_player_points);
         String pointsText = "Points: " + player.seasonScore;
@@ -57,7 +58,5 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 
         return view;
     }
-
-
 
 }

@@ -186,7 +186,12 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 JSONArray playersArr = jsonTeam.getJSONArray("picked_players");
                 for (int j = 0; j < playersArr.length(); j++) {
                     JSONObject jsonPlayer = playersArr.getJSONObject(j);
-                    Player player = players.get(jsonPlayer.getInt("player_id"));
+                    Player player = new Player(players.get(jsonPlayer.getInt("player_id")));
+
+                    if (player.id == team.turboID) {
+                        player.turbo = true;
+                    }
+
                     tempList.add(player);
                 }
 
