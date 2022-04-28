@@ -5,4 +5,8 @@
     <string name="enter_team_name">Enter a Team Name</string>
     <string name="add_driver">Add Driver</string>
     <string name="add_constructor">Add Constructor</string>
+
+    <string name="join_with_code">Join With A Code</string>
+    <string name="join_with_code_details">If you have received a game code, enter it here:</string>
+    <string name="join_with_code_hint">Enter a league code here</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LeaderboardFragment"
+    tools:context=".ContactFragment"
     style="@style/Frame_Layout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,26 +12,21 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/header_leaderboard"
+            android:id="@+id/header_choose_contact"
             style="@style/H1"
-            android:text="Leaderboard"/>
-
-        <ImageView
-            android:id="@+id/image_alt_share"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/alt_share"
-            android:layout_margin="10dp"
-            android:onClick="onClickHandler"
+            android:text="Choose Contact"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ListView
-            android:id="@+id/listview_leaderboard"
+            android:id="@+id/contact_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="67dp"
-            style="@style/Frame_Layout" />
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_choose_contact"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

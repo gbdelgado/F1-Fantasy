@@ -19,6 +19,7 @@ public class Player implements Serializable {
     public double seasonScore;
     public boolean isConstructor;
     public boolean injured;
+    public boolean turbo = false;
 
     public String teamAbbr;
     public int teamID;
@@ -49,9 +50,22 @@ public class Player implements Serializable {
         }
     }
 
-    public ArrayList<Object> getPlayerListRow() {
-        // return fields needed for each player row within a team list
-        return null;
+    public Player(Player player) {
+        id = player.id;
+
+        firstName = player.firstName;
+        lastName = player.lastName;
+        displayName = player.displayName;
+
+        price = player.price;
+        seasonScore = player.seasonScore;
+        isConstructor = player.isConstructor;
+        injured = player.injured;
+
+        teamAbbr = player.teamAbbr;
+        teamID = player.teamID;
+
+        imageURL = player.imageURL;
     }
 
     @Override
