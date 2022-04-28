@@ -46,6 +46,7 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 leaderboardFragment.setArguments(bundle);
                 leaderboardFragment.setContainerActivity(this);
                 getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.layout_leagues_page, leaderboardFragment)
                         .addToBackStack(null)
                         .commit();
@@ -55,6 +56,7 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
 
     FantasyManager manager;
     LeaderboardFragment leaderboardFragment;
+    JoinLeagueFragment joinLeagueFragment;
 
     HashMap<String, JSONObject> jsonResponses = new HashMap<>();
     ArrayList<League> leagues = new ArrayList<>();
@@ -84,6 +86,15 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 break;
             case R.id.image_alt_share:
                 checkContactsPermission();
+                break;
+            case R.id.button_join_league:
+                joinLeagueFragment = new JoinLeagueFragment();
+                joinLeagueFragment.setContainerActivity(this);
+                getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                        .add(R.id.layout_leagues_page, joinLeagueFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
         }
     }
@@ -145,6 +156,7 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         contactsFragment.setContainerActivity(this);
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.layout_leagues_page, contactsFragment)
                 .addToBackStack(null)
                 .commit();
