@@ -1,9 +1,12 @@
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -80,14 +83,7 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 manager.getLeague(this::onFinish, tempLeague.id);
                 break;
             case R.id.image_alt_share:
-                // set the contact list fragment
-                ContactFragment contactsFragment = new ContactFragment();
-                contactsFragment.setContainerActivity(this);
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layout_leagues_page, contactsFragment)
-                        .addToBackStack(null)
-                        .commit();
+                checkContactsPermission();
                 break;
         }
     }
@@ -122,6 +118,36 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         } catch (Exception e) { e.printStackTrace(); }
 
         league.buildEntrantList(leaderboard);
+    }
+
+    private void checkContactsPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+            startContactsFragment();
+        } else {
+            requestPermissions(new String[] { Manifest.permission.READ_CONTACTS }, 100);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == 100) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startContactsFragment();
+            }
+        }
+    }
+
+    private void startContactsFragment() {
+        ContactFragment contactsFragment = new ContactFragment();
+        contactsFragment.setContainerActivity(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layout_leagues_page, contactsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void onContactClick(View view) {
