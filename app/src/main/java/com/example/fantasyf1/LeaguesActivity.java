@@ -2,9 +2,15 @@ package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -73,6 +79,16 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
 
                 manager.getLeague(this::onFinish, tempLeague.id);
                 break;
+            case R.id.image_alt_share:
+                // set the contact list fragment
+                ContactFragment contactsFragment = new ContactFragment();
+                contactsFragment.setContainerActivity(this);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_leagues_page, contactsFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
         }
     }
 
@@ -106,5 +122,27 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         } catch (Exception e) { e.printStackTrace(); }
 
         league.buildEntrantList(leaderboard);
+    }
+
+    public void onContactClick(View view) {
+        String text = ((TextView) view).getText().toString();
+        String id = text.substring(text.indexOf(" :: ") + 4);
+        String contactInfo = "";
+
+        // get phone number from contact
+        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id, null, null);
+        while (phones.moveToNext()) {
+            @SuppressLint("Range") String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            contactInfo = phoneNumber;
+        }
+        phones.close();
+
+        // share it!
+        Uri uri = Uri.parse("smsto:" + contactInfo);
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        intent.putExtra("sms_body", "Hey! Come join my F1 Fantasy League! Use code: " +
+                leagues.get(calledLeagueIndex).code);
+        startActivity(intent);
     }
 }
