@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpPageFragment"
+    style="@style/Frame_Layout">
+
+    <TextView
+        android:id="@+id/header_how_to_play"
+        style="@style/H1"
+        android:text="@string/how_to_play"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_marginTop="67dp"
+        android:layout_height="666dp">
+
+        <LinearLayout
+            android:id="@+id/layout_how_to_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_login_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_login_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_title"
+                android:layout_gravity="center"
+                android:textSize="40sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_create_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_create_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_modify_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_modify_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_share_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_teams_share_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_title"
+                android:layout_gravity="center"
+                android:textSize="40sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_join_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_join_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_view_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_view_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_share_title"
+                android:textSize="35sp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                style="@style/Row_Text"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/htp_leagues_share_text"
+                android:padding="10dp"
+                style="@style/Row_Text"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

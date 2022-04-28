@@ -35,23 +35,41 @@ public class HelpFragment extends Fragment {
         Bundle args = new Bundle();
 
         switch (view.getId()) {
+            case R.id.button_how_to_play:
+                startHelpPageFragment();
+                break;
             case R.id.button_rules:
                 args.putString("URL", rulesURL);
+                startWebViewFragment(args);
                 break;
             case R.id.button_points_scoring:
                 args.putString("URL", pointsURL);
+                startWebViewFragment(args);
                 break;
             case R.id.button_faq:
                 args.putString("URL", faqURL);
+                startWebViewFragment(args);
                 break;
         }
 
+    }
+
+    private void startWebViewFragment(Bundle args) {
         WebViewFragment webViewFragment = new WebViewFragment();
         webViewFragment.setArguments(args);
 
-        /** @TODO - BUG: is not adding help fragment to backstack? */
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.layout_help_page, webViewFragment)
+        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.layout_help_page, webViewFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void startHelpPageFragment() {
+        HelpPageFragment helpPageFragment = new HelpPageFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.layout_help_page, helpPageFragment)
                 .addToBackStack(null)
                 .commit();
     }
