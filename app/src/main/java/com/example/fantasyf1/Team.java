@@ -170,14 +170,14 @@ public class Team implements Serializable {
             picked_team.put("parent_id", this.parentID == null ? JSONObject.NULL : parentID);
             picked_team.put("slot", this.slot);
             picked_team.put("name", this.name);
-            picked_team.put("game_period_id", 5);
+            picked_team.put("game_period_id", "5");
             picked_team.put("user_id", this.userID);
 
             // java is incredibly obnoxious just let me have null values >:(((((((((
             if (this.turboID == NO_VALUE) {
                 picked_team.put("boosted_player_id", JSONObject.NULL);
             } else {
-                picked_team.put("boosted_player_id", this.turboID);
+                picked_team.put("boosted_player_id", String.valueOf(this.turboID));
             }
             if (this.megaID == NO_VALUE) {
                 picked_team.put("mega_boosted_player_id", JSONObject.NULL);
@@ -325,7 +325,7 @@ public class Team implements Serializable {
      * @return
      */
     public boolean isFullTeam() {
-        return this.players.size() == MAX_TEAM_SIZE;
+        return this.players.size() == MAX_TEAM_SIZE && this.turboID != NO_VALUE;
     }
 
     /**
