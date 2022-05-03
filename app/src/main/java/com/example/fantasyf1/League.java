@@ -102,7 +102,7 @@ public class League implements Serializable {
             leagueEntrant.put("league_id", this.id);
             leagueEntrant.put("code", this.code);
             //@TODO CJ Fill this in
-            leagueEntrant.put("picked_team_id", "FILL THIS IN");
+            leagueEntrant.put("picked_team_id", this.picked_team_id);
             leagueEntrant.put("slot", this.usedTeamSlotNum);
             // wrap the object
             parent.put("league_entrant", leagueEntrant);

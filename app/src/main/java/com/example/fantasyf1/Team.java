@@ -23,6 +23,7 @@ public class Team implements Serializable {
     public String name;
     public String parentID;
     public String userID;
+    public String globalID;
     public int wildcardID;
     public int turboID;
     public int megaID;
@@ -45,6 +46,7 @@ public class Team implements Serializable {
             name = obj.getString("name");
 
             // we need actual nulls to match the API payload so make sure to replace them later
+            globalID = obj.getString("global_id");
             wildcardID = obj.optInt("wildcard_selected_id", NO_VALUE);
             turboID = obj.optInt("boosted_player_id", NO_VALUE);
             megaID = obj.optInt("mega_boosted_player_id", NO_VALUE);

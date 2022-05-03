@@ -119,6 +119,8 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 break;
             case R.id.button_user_leagues:
                 Intent anotherIntent = new Intent(this, LeaguesActivity.class);
+                // pass in teams
+                anotherIntent.putExtra("TEAMS", teams);
                 this.startActivity(anotherIntent);
                 break;
             case R.id.button_create_team:
@@ -214,6 +216,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
             // also set the user id here, if a user has no teams this is the only way to get it
             if (teams.size() < 3) {
                 String user_id = jsonResponses.get("user")
+                        .getJSONObject("user")
                         .getString("global_id");
                 userID = user_id;
             }

@@ -18,6 +18,19 @@
             android:text="Help" />
 
         <Button
+            android:id="@+id/button_how_to_play"
+            style="@style/Button"
+            android:layout_width="200dp"
+            android:layout_height="125dp"
+            android:text="@string/how_to_play"
+            android:textSize="36sp"
+            android:onClick="helpFragmentHandler"
+            android:layout_marginTop="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_help" />
+
+        <Button
             android:id="@+id/button_rules"
             style="@style/Button"
             android:layout_width="200dp"
@@ -25,10 +38,10 @@
             android:text="Rules"
             android:textSize="36sp"
             android:onClick="helpFragmentHandler"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_help" />
+            app:layout_constraintTop_toBottomOf="@+id/button_how_to_play" />
 
         <Button
             android:id="@+id/button_points_scoring"

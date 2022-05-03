@@ -6,7 +6,28 @@
     <string name="add_driver">Add Driver</string>
     <string name="add_constructor">Add Constructor</string>
 
+    <string name="how_to_play">How to Play</string>
+
     <string name="join_with_code">Join With A Code</string>
     <string name="join_with_code_details">If you have received a game code, enter it here:</string>
     <string name="join_with_code_hint">Enter a league code here</string>
+    <string name="join_pick_team">Pick Team To Join With</string>
+
+    <string name="htp_login_title">Logging in</string>
+    <string name="htp_login_text">For authentication reasons, you will have to log in via a WebView of the actual F1 Fantasy website. Once logged in, you can exit the WebView and will be directed to the homepage.</string>
+    <string name="htp_teams_title">Teams</string>
+    <string name="htp_teams_create_title">Creating a Team</string>
+    <string name="htp_teams_create_text">At the homepage you can press the “Create Team” button to create your first team. More details can be found in the “Rules” but for a brief explanation, a team consists of 6 players, composed of 5 drivers and 1 constructor. Each player has a price, and a team cannot cost more than $100M initially. You can choose players by tapping on the helmet/car and choosing a player from the proposed list. Once your players are selected, you can choose your “Turbo Driver”. This drive will receive double points, but has to be valued under $20M. Once you have made your selections just press “Continue” and you have created your team!</string>
+    <string name="htp_teams_modify_title">Modify Teams</string>
+    <string name="htp_teams_modify_text">After you created a team, you are allowed 6 substitutions before each race weekend. To do this, select the desired team from the team list, which will present a list of the team’s players. Press the modify button in the top right corner, and it will present a similar screen to the team creation page. Here you can substitute players and select a different turbo driver.</string>
+    <string name="htp_teams_share_title">Share Your Team</string>
+    <string name="htp_teams_share_text">You can also share a screencap of your team to your friends, family and loved ones. To do so, select your desired team from the team list, and press the share icon in the top right corner. It will then ask you to select an app to share with, and from there you will use the chosen app to share the image.</string>
+    <string name="htp_leagues_title">Leagues</string>
+    <string name="htp_leagues_join_title">Joining a League</string>
+    <string name="htp_leagues_join_text">Depending on how you created your account, F1 may have put you in some leagues already. If not you can join leagues easily by pressing the “Leagues” button then the “Join League” button. From here simply enter the join code and press “Join”. We made a league you can join if you’d like (for testing purposes of course): 2d6ccf8e23.</string>
+    <string name="htp_leagues_view_title">Viewing Leagues</string>
+    <string name="htp_leagues_view_text">Once a member of a league, it will appear on the “Leagues”. From here you can tap on the league, which will pull up the leaderboard for the respective league.</string>
+    <string name="htp_leagues_share_title">Sharing Leagues</string>
+    <string name="htp_leagues_share_text">From the leaderboard, you can also share an invite code to the league! To do this, press the share icon in the top right corner. The app will ask for permission to read contacts, and if granted will present a list of contacts. Here you can choose a contact, and which messaging app to message the contact with. Once the app is selected it will auto-fill a message containing the join code.</string>
+
 </resources>
