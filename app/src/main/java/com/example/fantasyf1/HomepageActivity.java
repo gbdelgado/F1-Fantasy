@@ -216,6 +216,7 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
             // also set the user id here, if a user has no teams this is the only way to get it
             if (teams.size() < 3) {
                 String user_id = jsonResponses.get("user")
+                        .getJSONObject("user")
                         .getString("global_id");
                 userID = user_id;
             }

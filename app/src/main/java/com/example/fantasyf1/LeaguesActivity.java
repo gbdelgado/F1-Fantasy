@@ -37,28 +37,36 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
 
         switch (respType) {
             case LEAGUE_ENTRANTS:
-                System.out.println("XXXX: " + leagues.size());
-
-                if (leagues.size() != 0) {
-
-                } else {
-                    parseLeagues();
-                    setLeaguesList();
-                }
+                parseLeagues();
+                setLeaguesList();
                 break;
             case GET_LEAGUE:
-                setLeaderboard();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("LEAGUE", leagues.get(calledLeagueIndex));
+                System.out.println(!joinCode.equals(""));
+                if (!joinCode.equals("")) {
+                    System.out.println("XXX: JOINING?");
+                    joinLeague();
+                } else {
+                    setLeaderboard();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("LEAGUE", leagues.get(calledLeagueIndex));
 
-                leaderboardFragment = new LeaderboardFragment();
-                leaderboardFragment.setArguments(bundle);
-                leaderboardFragment.setContainerActivity(this);
-                getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.layout_leagues_page, leaderboardFragment)
-                        .addToBackStack(null)
-                        .commit();
+                    leaderboardFragment = new LeaderboardFragment();
+                    leaderboardFragment.setArguments(bundle);
+                    leaderboardFragment.setContainerActivity(this);
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                            .replace(R.id.layout_leagues_page, leaderboardFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+                break;
+            case JOIN_LEAGUE:
+                System.out.println("XXX: LEAGUE JOINED - RESTARTING");
+
+                Intent intent = new Intent(this, LeaguesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("TEAMS", teams);
+                startActivity(intent);
                 break;
         }
     }
@@ -128,6 +136,8 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 bundle.putSerializable("TEAMS", teams);
                 pickLeagueTeamFragment.setArguments(bundle);
 
+                System.out.println("XXX: " + joinCode);
+
                 getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                         .add(R.id.layout_leagues_page, pickLeagueTeamFragment)
@@ -139,6 +149,8 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 // slots are 1-indexed
                 int slot = anotherListView.getPositionForView(view) + 1;
                 selectedTeamSlot = slot;
+
+                System.out.println("XXX: SLOT- " + slot);
 
                 // recent the color for previously selected team
                 if (pastSelection != null) {
@@ -152,10 +164,8 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 pastSelection = view;
 
                 view.setBackgroundColor(getResources().getColor(R.color.faint_red));
-
                 break;
             case R.id.button_confirm_team:
-
                 manager.getLeague(this::onFinish, joinCode);
 //
 //                // create League obj
@@ -167,10 +177,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
 //                manager.joinLeague(this::onFinish, joinLeague);
 
                 // relaunch once successful join
-                Intent intent = new Intent(this, LeaguesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("TEAMS", teams);
-                startActivity(intent);
+//                Intent intent = new Intent(this, LeaguesActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                intent.putExtra("TEAMS", teams);
+//                startActivity(intent);
                 break;
         }
     }
@@ -261,12 +271,24 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
     }
 
     private void joinLeague() {
-                // create League obj
+        League joinLeague = null;
+        try {
+            JSONArray leaguesArr = jsonResponses.get("league_entrants")
+                    .getJSONArray("league_entrants");
 
-                // set global team id for team leauge choice
-                League joinLeague = new League();
-                joinLeague.picked_team_id = teams.get(selectedTeamSlot).globalID;
+            for (int i = 0; i < leaguesArr.length(); i++) {
+                JSONObject jsonLeague = (JSONObject) leaguesArr.get(i);
+                joinLeague = new League(jsonLeague);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
 
-                manager.joinLeague(this::onFinish, joinLeague);
+        System.out.println("XXX: CREATED LEAGUE OBJ");
+
+        // set global team id for team leauge choice
+        joinLeague.picked_team_id = teams.get(selectedTeamSlot).globalID;
+        System.out.println("XXX: LEAGUE GLOBAL ID - " + joinLeague.picked_team_id);
+
+        manager.joinLeague(this::onFinish, joinLeague);
     }
+
 }

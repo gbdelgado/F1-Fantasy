@@ -34,7 +34,8 @@ public class FantasyManager {
         TEAMS,
         LEAGUE_ENTRANTS,
         LEAGUE_IMAGES,
-        GET_LEAGUE
+        GET_LEAGUE,
+        JOIN_LEAGUE
     }
 
     private boolean loggedIn;
@@ -204,7 +205,7 @@ public class FantasyManager {
         // convert the team to a json
         JSONObject payload = league.toJSON();
         // spin up the task
-        CallAPITask task = new CallAPITask(callback, api_url, RequestType.POST, ResponseType.LEAGUE_ENTRANTS, payload);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.POST, ResponseType.JOIN_LEAGUE, payload);
         task.execute();
     }
 
