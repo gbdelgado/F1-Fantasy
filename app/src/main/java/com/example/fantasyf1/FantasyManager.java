@@ -182,6 +182,17 @@ public class FantasyManager {
     }
 
     /**
+     * Overloaded for method
+     * @param callback
+     * @param leagueCode
+     */
+    public void getLeague(APICallback callback, String leagueCode) {
+        String api_url = String.format("https://fantasy-api.formula1.com/f1/2022/leagues?v=1&code=%s", leagueCode);
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.GET, ResponseType.GET_LEAGUE);
+        task.execute();
+    }
+
+    /**
      * Method for /league_entrants? for joining leagues
      * Request Type: POST
      *
