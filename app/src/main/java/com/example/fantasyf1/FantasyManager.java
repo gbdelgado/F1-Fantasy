@@ -182,6 +182,22 @@ public class FantasyManager {
     }
 
     /**
+     * Method for /league_entrants? for joining leagues
+     * Request Type: POST
+     *
+     * @param callback
+     * @param league
+     */
+    public void joinLeague(APICallback callback, League league) {
+        String api_url = "https://fantasy-api.formula1.com/f1/2022/league_entrants?v=1";
+        // convert the team to a json
+        JSONObject payload = league.toJSON();
+        // spin up the task
+        CallAPITask task = new CallAPITask(callback, api_url, RequestType.POST, ResponseType.LEAGUE_ENTRANTS, payload);
+        task.execute();
+    }
+
+    /**
      * Method for /players
      * Request Type: GET
      *

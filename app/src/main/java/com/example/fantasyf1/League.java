@@ -1,6 +1,7 @@
 package com.example.fantasyf1;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -17,6 +18,8 @@ public class League implements Serializable {
     public int totalEntrants;
     public int usedTeamSlotNum;
     public int maxTeamLimit;
+    // pls set this ceeg, this is the 'global_id' of the team you want to join the league
+    public String picked_team_id;
 
     public User[] entrants;
 
@@ -41,7 +44,9 @@ public class League implements Serializable {
                         .getString("url");
             }
 
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void buildEntrantList(JSONArray arr) {
@@ -53,7 +58,9 @@ public class League implements Serializable {
                 User user = new User(jsonUser);
                 entrants[i] = user;
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // this is from /leagues&league_id=123456
@@ -74,9 +81,37 @@ public class League implements Serializable {
                 rank = json.getInt("rank");
                 score = json.getInt("score");
                 teamSlot = json.getInt("slot");
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
+    }
+
+    /**
+     * Forms a JSON payload that is sent when joining a league
+     *
+     * @return
+     */
+    public JSONObject toJSON() {
+        // outerjson
+        JSONObject parent = new JSONObject();
+        // league entrant json where all the goods are stored
+        JSONObject leagueEntrant = new JSONObject();
+        try {
+            leagueEntrant.put("league_id", this.id);
+            leagueEntrant.put("code", this.code);
+            //@TODO CJ Fill this in
+            leagueEntrant.put("picked_team_id", "FILL THIS IN");
+            leagueEntrant.put("slot", this.usedTeamSlotNum);
+            // wrap the object
+            parent.put("league_entrant", leagueEntrant);
+            return parent;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("Couldn't form json :(");
+        }
+        return null;
     }
 
 }
