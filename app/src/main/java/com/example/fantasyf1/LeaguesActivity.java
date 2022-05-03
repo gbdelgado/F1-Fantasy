@@ -8,10 +8,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public class LeaguesActivity extends AppCompatActivity implements APICallback {
@@ -34,8 +37,14 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
 
         switch (respType) {
             case LEAGUE_ENTRANTS:
-                parseLeagues();
-                setLeaguesList();
+                System.out.println("XXXX: " + leagues.size());
+
+                if (leagues.size() != 0) {
+
+                } else {
+                    parseLeagues();
+                    setLeaguesList();
+                }
                 break;
             case GET_LEAGUE:
                 setLeaderboard();
@@ -57,20 +66,27 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
     FantasyManager manager;
     LeaderboardFragment leaderboardFragment;
     JoinLeagueFragment joinLeagueFragment;
+    PickLeagueTeamFragment pickLeagueTeamFragment;
 
     HashMap<String, JSONObject> jsonResponses = new HashMap<>();
+    HashMap<Integer, Team> teams;
     ArrayList<League> leagues = new ArrayList<>();
     LeagueAdapter leagueAdapter;
+
     int calledLeagueIndex;
+    int selectedTeamSlot = 1;
+    View pastSelection = null;
+    String joinCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leagues);
 
+        teams = (HashMap<Integer, Team>) getIntent().getSerializableExtra("TEAMS");
+
         manager = new FantasyManager();
         manager.getLeagueEntrants(this::onFinish);
-
     }
 
     public void onClickHandler(View view) {
@@ -91,10 +107,70 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 joinLeagueFragment = new JoinLeagueFragment();
                 joinLeagueFragment.setContainerActivity(this);
                 getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                        .setCustomAnimations(R.anim.slide_in, R.anim.fade_out)
                         .add(R.id.layout_leagues_page, joinLeagueFragment)
                         .addToBackStack(null)
                         .commit();
+                break;
+            case R.id.button_join_league_code:
+
+                joinCode = ((EditText) findViewById(R.id.edit_text_league_join_code)).getText().toString();
+
+//                getSupportFragmentManager().beginTransaction()
+//                        .setCustomAnimations(R.anim.slide_in, R.anim.fade_out)
+//                        .remove(joinLeagueFragment)
+//                        .commit();
+
+                pickLeagueTeamFragment = new PickLeagueTeamFragment();
+                pickLeagueTeamFragment.setContainerActivity(this);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("TEAMS", teams);
+                pickLeagueTeamFragment.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                        .add(R.id.layout_leagues_page, pickLeagueTeamFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case R.id.row_team:
+                ListView anotherListView = (ListView) view.getParent();
+                // slots are 1-indexed
+                int slot = anotherListView.getPositionForView(view) + 1;
+                selectedTeamSlot = slot;
+
+                // recent the color for previously selected team
+                if (pastSelection != null) {
+                    int color = Color.TRANSPARENT;
+                    Drawable background = view.getBackground();
+                    if (background instanceof ColorDrawable) {
+                        color = ((ColorDrawable) background).getColor();
+                    }
+                    pastSelection.setBackgroundColor(color);
+                }
+                pastSelection = view;
+
+                view.setBackgroundColor(getResources().getColor(R.color.faint_red));
+
+                break;
+            case R.id.button_confirm_team:
+
+                manager.getLeague(this::onFinish, joinCode);
+//
+//                // create League obj
+//
+//                // set global team id for team leauge choice
+//                League joinLeague = new League();
+//                joinLeague.picked_team_id = teams.get(selectedTeamSlot).globalID;
+//
+//                manager.joinLeague(this::onFinish, joinLeague);
+
+                // relaunch once successful join
+                Intent intent = new Intent(this, LeaguesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("TEAMS", teams);
+                startActivity(intent);
                 break;
         }
     }
@@ -182,5 +258,15 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         intent.putExtra("sms_body", "Hey! Come join my F1 Fantasy League! Use code: " +
                 leagues.get(calledLeagueIndex).code);
         startActivity(intent);
+    }
+
+    private void joinLeague() {
+                // create League obj
+
+                // set global team id for team leauge choice
+                League joinLeague = new League();
+                joinLeague.picked_team_id = teams.get(selectedTeamSlot).globalID;
+
+                manager.joinLeague(this::onFinish, joinLeague);
     }
 }

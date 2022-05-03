@@ -11,6 +11,7 @@
     <string name="join_with_code">Join With A Code</string>
     <string name="join_with_code_details">If you have received a game code, enter it here:</string>
     <string name="join_with_code_hint">Enter a league code here</string>
+    <string name="join_pick_team">Pick Team To Join With</string>
 
     <string name="htp_login_title">Logging in</string>
     <string name="htp_login_text">For authentication reasons, you will have to log in via a WebView of the actual F1 Fantasy website. Once logged in, you can exit the WebView and will be directed to the homepage.</string>
@@ -28,6 +29,5 @@
     <string name="htp_leagues_view_text">Once a member of a league, it will appear on the “Leagues”. From here you can tap on the league, which will pull up the leaderboard for the respective league.</string>
     <string name="htp_leagues_share_title">Sharing Leagues</string>
     <string name="htp_leagues_share_text">From the leaderboard, you can also share an invite code to the league! To do this, press the share icon in the top right corner. The app will ask for permission to read contacts, and if granted will present a list of contacts. Here you can choose a contact, and which messaging app to message the contact with. Once the app is selected it will auto-fill a message containing the join code.</string>
-
 
 </resources>

@@ -119,6 +119,8 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
                 break;
             case R.id.button_user_leagues:
                 Intent anotherIntent = new Intent(this, LeaguesActivity.class);
+                // pass in teams
+                anotherIntent.putExtra("TEAMS", teams);
                 this.startActivity(anotherIntent);
                 break;
             case R.id.button_create_team:
