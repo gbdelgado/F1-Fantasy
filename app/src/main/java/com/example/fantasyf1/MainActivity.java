@@ -1,3 +1,9 @@
+/**
+ * MainActivity.java
+ * This is the root activity for the app. It simply represents a button for you to get authenticated
+ * and be let in to the rest of the app. This will also be the activity that you get sent too after
+ * a succesful logout event
+ */
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements APICallback {
             System.out.println("Restarting");
         }
         // clear any old cookies
-//        CookieManager.getInstance().removeAllCookies(null);
-//        CookieManager.getInstance().flush();
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
 
         loginFragment = new LoginFragment();
         loginFragment.setContainerActivity(this);
@@ -60,19 +66,16 @@ public class MainActivity extends AppCompatActivity implements APICallback {
                 .commit();
     }
 
+    /**
+     * Called by the loginFragment after a succesful authentication
+     * @param needsRetry
+     */
     public void onAfterLogin(boolean needsRetry) {
         if(needsRetry) {
             System.out.println("Needs Retry");
             startLogin(null);
             return;
         }
-        System.out.println("LOGGED IN");
-        FantasyManager manager = new FantasyManager();
-//        manager.getPlayers(this::onFinish);
-//        manager.getBoosters(this::onFinish);
-//        manager.getSeason(this::onFinish);
-//        manager.getTeams(this::onFinish);
-        manager.getPickedTeams(this::onFinish, 4);
 
         Intent myIntent = new Intent(this, HomepageActivity.class);
         this.startActivity(myIntent);

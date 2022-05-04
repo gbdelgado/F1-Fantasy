@@ -1,3 +1,11 @@
+/**
+ * CreateTeamFragment.java
+ * This fragment represents the view you see when you are either creating/modifying your team.
+ * It provides an interface for changing players and making any edits. There are two things to note
+ * with the class. This class must be passed some arguments pertaining to the team you are creating
+ * /modifying as well as it must be specified if you are actually CREATING a team vs MODIFYING.
+ *
+ */
 package com.example.fantasyf1;
 
 import android.app.Activity;
@@ -46,6 +54,12 @@ public class CreateTeamFragment extends Fragment {
         this.containerActivity = containerActivity;
     }
 
+    /**
+     * This method is called onCreateView it is responsible for populating all  of the players in the
+     * team view as well as creating a lookuptable for correlating the players to their resoruce ID's
+     *
+     * @param v
+     */
     private void fillTeam(View v) {
         // create a look up table of resource ID's to their player so we can handle on click later
         lut = new HashMap<Integer, Player>();

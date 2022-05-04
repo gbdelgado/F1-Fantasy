@@ -1,3 +1,10 @@
+/**
+ * TeamNameFrament.java
+ * This fragment is a popup for when a user first creates a team. This interface allows them to
+ * set the team name, It is also responsible for verifying that the use has met the requirements for
+ * a valid teamname
+ *
+ */
 package com.example.fantasyf1;
 
 import android.app.Activity;
@@ -24,6 +31,9 @@ public class TeamNameFragment extends Fragment {
         this.containerActivity = containerActivity;
     }
 
+    /**
+     * Tells the parent activity that our team name has been set
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -33,6 +43,14 @@ public class TeamNameFragment extends Fragment {
         }
     }
 
+    /**
+     * onCreateView sets the stage for the activity as well as sets the event listener for linting
+     * the name the user types in to make sure it meets the API requirements
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
