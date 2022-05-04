@@ -14,7 +14,9 @@
         <TextView
             android:id="@+id/header_leaderboard"
             style="@style/H1"
-            android:text="Leaderboard"/>
+            android:text="Leaderboard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/image_alt_share"

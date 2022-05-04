@@ -15,7 +15,9 @@
         <TextView
             android:id="@+id/header_help"
             style="@style/H1"
-            android:text="Help" />
+            android:text="Help"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
             android:id="@+id/button_how_to_play"
