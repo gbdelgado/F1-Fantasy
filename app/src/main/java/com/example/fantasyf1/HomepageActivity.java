@@ -1,8 +1,8 @@
 /**
- * @file:           HomepageActivity.java
- * @author:         CJ Larsen
- * @description:    main homescreen for the app. makes a majority of the required API calls, as well
- *                  as displaying a ListView of the user's teams.
+ * @file: HomepageActivity.java
+ * @author: CJ Larsen
+ * @description: main homescreen for the app. makes a majority of the required API calls, as well
+ * as displaying a ListView of the user's teams.
  */
 
 package com.example.fantasyf1;
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -157,12 +158,22 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
      * @param view
      */
     public void settingsFragmentHandler(View view) {
-        settingsFragment.toggleTheme();
+        if (view.getId() == R.id.button_log_out) {
+//            CookieManager.getInstance().removeAllCookies(null);
+//            CookieManager.getInstance().flush();
+            // take them back to the main page so we can reload all the data
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
+            settingsFragment.toggleTheme();
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .remove(settingsFragment)
-                .commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(settingsFragment)
+                    .commit();
+
+        }
     }
 
     public void helpFragmentHandler(View view) {

@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements APICallback {
             System.out.println("Restarting");
         }
         // clear any old cookies
-        CookieManager.getInstance().removeAllCookies(null);
-        CookieManager.getInstance().flush();
+//        CookieManager.getInstance().removeAllCookies(null);
+//        CookieManager.getInstance().flush();
 
         loginFragment = new LoginFragment();
         loginFragment.setContainerActivity(this);

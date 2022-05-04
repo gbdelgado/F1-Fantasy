@@ -23,6 +23,7 @@ the methods that should be called in the case of an event-->
         <Button
             android:id="@+id/button_log_out"
             style="@style/Button"
+            android:onClick="settingsFragmentHandler"
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_marginTop="172dp"
