@@ -1,3 +1,9 @@
+/**
+ * @file:           HelpPageFragment.java
+ * @author:         CJ Larsen
+ * @description:    basic fragment displaying info for how to play the game
+ */
+
 package com.example.fantasyf1;
 
 import android.os.Bundle;

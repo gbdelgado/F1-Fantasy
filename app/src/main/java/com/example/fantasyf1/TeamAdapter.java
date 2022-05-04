@@ -1,3 +1,10 @@
+/**
+ * @file:           TeamAdapter.java
+ * @author:         CJ Larsen
+ * @description:    this class is a custom ArrayAdapter that takes in an ArrayList of Team objects
+ *                  and matches the desired info out into a view
+ */
+
 package com.example.fantasyf1;
 
 import android.content.Context;
@@ -20,6 +27,14 @@ public class TeamAdapter extends ArrayAdapter<Team> {
         this.teams = teams;
     }
 
+    /**
+     * gets position of item in ListView, gets the corresponding Team object and populates the item
+     * with info from the Team object
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return inflated view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

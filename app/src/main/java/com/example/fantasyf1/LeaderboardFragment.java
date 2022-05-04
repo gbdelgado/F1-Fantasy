@@ -1,3 +1,9 @@
+/**
+ * @file:           LeaderboardFragment.java
+ * @author:         CJ Larsen
+ * @description:    this fragment displays a ListView of all the players within the league
+ */
+
 package com.example.fantasyf1;
 
 import android.app.Activity;
@@ -21,6 +27,13 @@ public class LeaderboardFragment extends Fragment {
         this.containerActivity = containerActivity;
     }
 
+    /**
+     * gets the league object passed in, the populates the ListView using custom ArrayAdapter class
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment

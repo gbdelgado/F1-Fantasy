@@ -1,3 +1,9 @@
+/**
+ * @file:           JoinLeagueFragment.java
+ * @author:         CJ Larsen
+ * @description:    basic fragment for allowing a user to enter a code to join a league
+ */
+
 package com.example.fantasyf1;
 
 import android.app.Activity;

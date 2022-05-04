@@ -1,3 +1,10 @@
+/**
+ * @file:           HelpFragment.java
+ * @author:         CJ Larsen
+ * @description:    this fragment opens a submenu for all the help options. hot_to_play just another
+ *                  fragment while the rest are WebView fragments
+ */
+
 package com.example.fantasyf1;
 
 import android.app.Activity;
@@ -31,6 +38,10 @@ public class HelpFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_help, container, false);
     }
 
+    /**
+     * handler for any and all onClicks in this fragment. mainly used to start other fragments
+     * @param view
+     */
     public void onClickHandler(View view) {
         Bundle args = new Bundle();
 
@@ -54,6 +65,10 @@ public class HelpFragment extends Fragment {
 
     }
 
+    /**
+     * starts the WebView fragment by passing in the appropriate URL
+     * @param args
+     */
     private void startWebViewFragment(Bundle args) {
         WebViewFragment webViewFragment = new WebViewFragment();
         webViewFragment.setArguments(args);
@@ -65,6 +80,9 @@ public class HelpFragment extends Fragment {
                 .commit();
     }
 
+    /**
+     * starts the help page fragment
+     */
     private void startHelpPageFragment() {
         HelpPageFragment helpPageFragment = new HelpPageFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

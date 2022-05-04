@@ -1,3 +1,10 @@
+/**
+ * @file:           LeagueAdapter.java
+ * @author:         CJ Larsen
+ * @description:    custom ArrayAdapter for League objects. populates a ListView with corresponding
+ *                  info from League objects
+ */
+
 package com.example.fantasyf1;
 
 import android.content.Context;
@@ -18,9 +25,17 @@ public class LeagueAdapter extends ArrayAdapter {
     public LeagueAdapter(Context context, int rowLayoutID, ArrayList<League> leagues) {
         super(context, rowLayoutID, leagues);
         this.context = context;
-        this.leagues = leagues;
+        this.leagues = leagues; // get all of the users leagues
     }
 
+    /**
+     * gets the position of the item in ListView, then gets corresponding League obj to and populates
+     * the item with that league's info
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return inflated/populate view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

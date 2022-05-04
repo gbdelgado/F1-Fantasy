@@ -1,3 +1,10 @@
+/**
+ * @file:           League.java
+ * @author:         CJ Larsen
+ * @description:    custom class for user leagues. takes in a JSON object and parses the requried information.
+ *                  has inner class User for each league entrant, as well as a JSON returning method
+ */
+
 package com.example.fantasyf1;
 
 import org.json.JSONArray;
@@ -18,7 +25,6 @@ public class League implements Serializable {
     public int totalEntrants;
     public int usedTeamSlotNum;
     public int maxTeamLimit;
-    // pls set this ceeg, this is the 'global_id' of the team you want to join the league
     public String picked_team_id;
 
     public User[] entrants;
@@ -49,6 +55,11 @@ public class League implements Serializable {
         }
     }
 
+    /**
+     * takes in part of the JSON response for /league_entrants, creates a User object for each
+     * person and puts them in a User arr
+     * @param arr
+     */
     public void buildEntrantList(JSONArray arr) {
         entrants = new User[arr.length()];
 
@@ -63,7 +74,10 @@ public class League implements Serializable {
         }
     }
 
-    // this is from /leagues&league_id=123456
+    /**
+     * inner class (shoulda not been) for creating a User for each person within a league.
+     * this is from /leagues&league_id=123456
+     */
     public class User implements Serializable {
 
         public String name;
@@ -101,7 +115,6 @@ public class League implements Serializable {
         try {
             leagueEntrant.put("league_id", this.id);
             leagueEntrant.put("code", this.code);
-            //@TODO CJ Fill this in
             leagueEntrant.put("picked_team_id", this.picked_team_id);
             leagueEntrant.put("slot", this.usedTeamSlotNum);
             // wrap the object

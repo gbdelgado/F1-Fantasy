@@ -1,3 +1,10 @@
+/**
+ * @file:           PickLeagueTeamFragment.java
+ * @author:         CJ Larsen
+ * @description:    this fragment presents the user with a list of their teams to choose from when
+ *                  joining a league
+ */
+
 package com.example.fantasyf1;
 
 import android.app.Activity;
@@ -27,6 +34,14 @@ public class PickLeagueTeamFragment extends Fragment {
         this.containerActivity = containerActivity;
     }
 
+    /**
+     * gets the hashmap of Team objects, converts it to ArrayList, them populates the ListView
+     * with the info for each Team
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

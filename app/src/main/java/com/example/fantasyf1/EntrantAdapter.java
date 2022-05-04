@@ -1,3 +1,10 @@
+/**
+ * @file:           EntrantAdapter.java
+ * @author:         CJ Larsen
+ * @description:    custom ArrayAdapter class for User objects. populates ListView with the appropriate
+ *                  corresponding User information
+ */
+
 package com.example.fantasyf1;
 
 import android.content.Context;
@@ -15,9 +22,17 @@ public class EntrantAdapter extends ArrayAdapter<League.User> {
     public EntrantAdapter(Context context, int rowLayoutID, League.User[] leaderboard) {
         super(context, rowLayoutID, leaderboard);
         this.context = context;
-        this.leaderboard = leaderboard;
+        this.leaderboard = leaderboard; // pass in array of all users in the league
     }
 
+    /**
+     * gets the position # for the item, gets the matching user in the league and populates the
+     * ListView item with that user's info
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return return inflated/populated view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

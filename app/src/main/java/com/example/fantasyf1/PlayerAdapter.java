@@ -1,3 +1,9 @@
+/**
+ * @file:           PlayerAdapter.java
+ * @author:         CJ Larsen
+ * @description:    custom ArrayAdapter class for a ListView of Player objects
+ */
+
 package com.example.fantasyf1;
 
 import android.content.Context;
@@ -30,6 +36,14 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
         this.players = players;
     }
 
+    /**
+     * gets the current position of the item in ListView, gets the matching Player object, and populates
+     * the item with the Player info
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return inflated/populated view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

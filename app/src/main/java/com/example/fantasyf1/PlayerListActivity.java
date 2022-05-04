@@ -1,3 +1,11 @@
+/**
+ * @file:           PlayerListActivity.java
+ * @author:         CJ Larsen
+ * @description:    activity for displaying a ListView of all the players on the user's team. handles
+ *                  onClick events as well as starting the CreateTeamActivity and sharing a screenshot
+ *                  of the team
+ */
+
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +50,10 @@ public class PlayerListActivity extends AppCompatActivity {
         setPlayerList();
     }
 
+    /**
+     * handler for onClick events within this activity
+     * @param view
+     */
     public void onClickHandler(View view) {
         switch (view.getId()) {
             case R.id.image_share:
@@ -74,6 +86,10 @@ public class PlayerListActivity extends AppCompatActivity {
         listView.setAdapter(playerAdapter);
     }
 
+    /**
+     * takes a 'screenshot' of the user's team, saves it the device, and then starts an implicit
+     * intent to share the image
+     */
     private void shareTeam() {
         ListView listView = findViewById(R.id.listview_players_teampage);
 

@@ -1,3 +1,10 @@
+/**
+ * @file:           SettingsFragment.java
+ * @author:         CJ Larsen
+ * @description:    fragment pulls up the settings menu, allowing them to log out of the app or change
+ *                  the theme mode for the app
+ */
+
 package com.example.fantasyf1;
 
 import android.app.Activity;

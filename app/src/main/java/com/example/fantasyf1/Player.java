@@ -1,3 +1,10 @@
+/**
+ * @file:           Player.java
+ * @author:         CJ Larsen
+ * @description:    Player class. holds information about each Driver/Constructor used within the game
+ *                  takes in a JSON obj and parses it for info.
+ */
+
 package com.example.fantasyf1;
 
 import org.json.JSONObject;
@@ -50,6 +57,10 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * overloaded constructor, for duplicating Player objects
+     * @param player
+     */
     public Player(Player player) {
         id = player.id;
 
@@ -68,6 +79,11 @@ public class Player implements Serializable {
         imageURL = player.imageURL;
     }
 
+    /**
+     * override for checking if players are the same
+     * @param o
+     * @return true/false
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Player) {
@@ -77,6 +93,10 @@ public class Player implements Serializable {
         return false;
     }
 
+    /**
+     * nice
+     * @return hashcoded value
+     */
     @Override
     public int hashCode() {
         return 69 * this.id;

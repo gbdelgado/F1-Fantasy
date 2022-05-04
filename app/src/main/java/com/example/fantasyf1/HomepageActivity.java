@@ -1,3 +1,10 @@
+/**
+ * @file:           HomepageActivity.java
+ * @author:         CJ Larsen
+ * @description:    main homescreen for the app. makes a majority of the required API calls, as well
+ *                  as displaying a ListView of the user's teams.
+ */
+
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +26,13 @@ import java.util.Locale;
 
 public class HomepageActivity extends AppCompatActivity implements APICallback {
 
+    /**
+     * called when API call is finished and returns the JSON results. JSON is added into a HashMap of
+     * all responses, then calls/preforms the appropriate action based on which API call was made
+     * @param response
+     * @param respType
+     * @param statusCode
+     */
     @Override
     public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
         // bad
@@ -65,7 +79,6 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
     FantasyManager manager = new FantasyManager();
     SettingsFragment settingsFragment;
     HelpFragment helpFragment;
-
 
     HashMap<String, JSONObject> jsonResponses = new HashMap<>();
     HashMap<Integer, Player> players = new HashMap<>();
@@ -240,6 +253,10 @@ public class HomepageActivity extends AppCompatActivity implements APICallback {
         listView.setAdapter(teamAdapter);
     }
 
+    /**
+     * enables/disables the progress bar depending on parameters
+     * @param loading
+     */
     private void setLoading(boolean loading) {
         ProgressBar bar = findViewById(R.id.loading_bar);
         if (loading) {

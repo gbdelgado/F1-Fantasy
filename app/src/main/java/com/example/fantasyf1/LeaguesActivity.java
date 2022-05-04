@@ -1,3 +1,10 @@
+/**
+ * @file:           LeaguesActivity.java
+ * @author:         CJ Larsen
+ * @description:    base page for leagues. fills a list view with all of the user's leagues. allows
+ *                  them to select a league to view the leaderboard, as well as join another league
+ */
+
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +36,13 @@ import java.util.Locale;
 
 public class LeaguesActivity extends AppCompatActivity implements APICallback {
 
+    /**
+     * called when API call is finished and returns the JSON results. JSON is added into a HashMap of
+     * all responses, then calls/preforms the appropriate action based on which API call was made
+     * @param response
+     * @param respType
+     * @param statusCode
+     */
     @Override
     public void onFinish(JSONObject response, FantasyManager.ResponseType respType, int statusCode) {
         System.out.println("JSON OUT");
@@ -94,6 +108,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         setLoading(true);
     }
 
+    /**
+     * handler for any and (almost) all onClicks that may happen within this activity
+     * @param view
+     */
     public void onClickHandler(View view) {
         switch (view.getId()) {
             case R.id.row_league:
@@ -158,6 +176,9 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         }
     }
 
+    /**
+     * gets the returned JSON for leagues, parses it, and creates League objects for each league
+     */
     private void parseLeagues() {
         try {
             JSONArray leaguesArr = jsonResponses.get("league_entrants")
@@ -171,6 +192,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
+    /**
+     * with the all League objects created, populates the ListView with the leagues using a custom
+     * ArrayAdapter
+     */
     private void setLeaguesList() {
         ListView listView = findViewById(R.id.listview_leagues_homepage);
         leagueAdapter = new LeagueAdapter(this, R.layout.row_league, leagues);
@@ -178,6 +203,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         setLoading(false);
     }
 
+    /**
+     * gets JSON response with the entrant info for a specified league, populates that League object
+     * with info about the league
+     */
     private void setLeaderboard() {
         League league = leagues.get(calledLeagueIndex);
 
@@ -191,6 +220,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         league.buildEntrantList(leaderboard);
     }
 
+    /**
+     * read contacts permission is required to choose a contact to share to, this will trigger a pop-up
+     * on to ask for the permissions
+     */
     private void checkContactsPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
@@ -200,6 +233,13 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         }
     }
 
+    /**
+     * called after use has (or has not) accepted permissions, if use has accepted permissions it will
+     * call the method to continue the contact stuffs
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -211,6 +251,9 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         }
     }
 
+    /**
+     * starts contact selection fragment, doesnt really need to be in a method by itself but oh well
+     */
     private void startContactsFragment() {
         ContactFragment contactsFragment = new ContactFragment();
         contactsFragment.setContainerActivity(this);
@@ -222,6 +265,11 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
                 .commit();
     }
 
+    /**
+     * called when user selects a contact, gets the phone number of the contact and starts an implicit
+     * intent to open messaging app. also will prefill a sharing message within the messaging app
+     * @param view
+     */
     public void onContactClick(View view) {
         String text = ((TextView) view).getText().toString();
         String id = text.substring(text.indexOf(" :: ") + 4);
@@ -244,6 +292,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         startActivity(intent);
     }
 
+    /**
+     * gets the returned JSON for the league the user is truing to join, gets the team the user selected
+     * to join with and makes API call to join the league
+     */
     private void joinLeague() {
         League joinLeague = null;
         try {
@@ -262,6 +314,10 @@ public class LeaguesActivity extends AppCompatActivity implements APICallback {
         manager.joinLeague(this::onFinish, joinLeague);
     }
 
+    /**
+     * enables/disables the progress bar depending on parameters
+     * @param loading
+     */
     private void setLoading(boolean loading) {
         ProgressBar bar = findViewById(R.id.loading_bar);
         if (loading) {
