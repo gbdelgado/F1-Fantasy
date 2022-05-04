@@ -1,3 +1,9 @@
+/**
+ * LoginFragment.java
+ * This fragment is responsible for taking you to the offical f1 login page through a webview to
+ * get a use authenticated. This class has a custom webviewclient which will monitor the web traffic
+ * and listen for special events to tell the parent when the login process has finished.
+ */
 package com.example.fantasyf1;
 
 import android.content.Context;
@@ -50,7 +56,7 @@ public class LoginFragment extends Fragment {
         CookieManager.getInstance().setAcceptCookie(true);
         webView = v.findViewById(R.id.web_view);
         webView.addJavascriptInterface(new WebAppInterface(getContext()), "Android");
-
+        // f1 requires all these
         webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
@@ -95,14 +101,25 @@ public class LoginFragment extends Fragment {
             return false;
         }
 
+        /**
+         * This method will look at all of the requests the webview makes. This is our indication that
+         * the login process has finished. We listen until a certain request header is not null then
+         * we are able to return to the main menu
+         *
+         * @param view
+         * @param request
+         * @return
+         */
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            if(request.getUrl().toString().startsWith("https://fantasy-api.formula1.com/f1/2022/live_stats?v=1&game_period_id=5")) {
-                System.out.println("STOPPING: " + request.getUrl().toString());
-                containerActivity.getSupportFragmentManager().popBackStack();
-                return null;
-            }
+            if (request.getUrl().toString().equals("https://fantasy-api.formula1.com/f1/2022/players?v=1")) {
+                // this header will be null until we are full logged in
+                if(request.getRequestHeaders().get("x-build") != null) {
+                    System.out.println("QUITTING WEB FRAGMENT");
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
 
+            }
             return super.shouldInterceptRequest(view, request);
         }
 
