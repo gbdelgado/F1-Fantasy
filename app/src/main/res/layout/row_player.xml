@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--row_player.xml controls the static layout of the player adapter as well as defines
+the methods that should be called in the case of an event-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/row_player"
     android:layout_width="match_parent"

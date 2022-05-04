@@ -1,3 +1,9 @@
+/**
+ * PlayerListFragment.java
+ * This fragment represents the view you see when you click on a player
+ * during a team creation/modification
+ *
+ */
 package com.example.fantasyf1;
 
 import android.app.Activity;
@@ -39,6 +45,15 @@ public class PlayerListFragment extends Fragment {
     }
 
 
+    /**
+     * Creates the view, and creates a callback for whenever a player is clicked. It will report
+     * the player swap details to the parent
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +75,7 @@ public class PlayerListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // get the id of the player they clicked
                 playerIn = (Player) adapterView.getItemAtPosition(i);
-                if(playerOut != null) {
+                if (playerOut != null) {
                     team.swapPlayer(playerIn, playerOut);
                 } else {
                     team.addPlayer(playerIn);

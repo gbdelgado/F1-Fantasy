@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--row_entrant.xml controls the static layout of the row for the entrant adapter as well as defines
+the methods that should be called in the case of an event-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

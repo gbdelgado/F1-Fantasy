@@ -1,3 +1,12 @@
+/**
+ * FantasyManager.java
+ * FantasyManager provides an interface for talking the the f1 fantasy api. This class is responsible
+ * for getting the special login cookies, prepping all of headers, and decoding the responses.
+ * <p>
+ * Each request takes in an APICallback method which will be called after the asynctask has
+ * reached its' onPostExecute method. In combination with this each callback will provide
+ * a ResponseType enum to let the caller know which response they are getting.
+ */
 package com.example.fantasyf1;
 
 import android.os.AsyncTask;
@@ -88,9 +97,9 @@ public class FantasyManager {
         headers.put("sec-ch-ua", "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"");
         headers.put("sec-ch-ua-mobile", "?0");
         headers.put("sec-ch-ua-platform", "Windows");
-        headers.put("x-build", "4c1e4a96");
+        headers.put("x-build", "c1a1d483");
         headers.put("x-project", "flutter");
-        headers.put("x-version", "2.5.0");
+        headers.put("x-version", "2.5.3");
     }
 
     /**
@@ -184,6 +193,7 @@ public class FantasyManager {
 
     /**
      * Overloaded for method
+     *
      * @param callback
      * @param leagueCode
      */
@@ -267,7 +277,7 @@ public class FantasyManager {
     }
 
     /**
-     *
+     * CallAPITask is the actual AsyncTask that implements the getting/posting/putting of the API Calls
      */
     private class CallAPITask extends AsyncTask<String, Integer, JSONObject> {
         private APICallback callback;
@@ -277,6 +287,15 @@ public class FantasyManager {
         private JSONObject payload;
         private int statusCode;
 
+
+        /**
+         * Constructor for CallAPITask for requests that do not require a payload
+         *
+         * @param onFinish {APICallback} - the callback that will be called onPostExecute
+         * @param api_url  {String} - the endpoint to be called
+         * @param reqType  {RequestType} - the request method
+         * @param respType {ResponseType} - the type of response that will be returned
+         */
         public CallAPITask(APICallback onFinish, String api_url, RequestType reqType, ResponseType respType) {
             this.callback = onFinish;
             this.api_url = api_url;
@@ -284,6 +303,15 @@ public class FantasyManager {
             this.responseType = respType;
         }
 
+        /**
+         * Overloaded constructor for handling requests that have a payload such as POST and PUT
+         *
+         * @param onFinish {APICallback} - the callback that will be called onPostExecute
+         * @param api_url  {String} - the endpoint to be called
+         * @param reqType  {RequestType} - the request method
+         * @param respType {ResponseType} - the type of response that will be returned
+         * @param payload  {JSONObject} - the JSON payload of the request
+         */
         public CallAPITask(APICallback onFinish, String api_url, RequestType reqType, ResponseType respType, JSONObject payload) {
             this.callback = onFinish;
             this.api_url = api_url;
@@ -292,6 +320,13 @@ public class FantasyManager {
             this.payload = payload;
         }
 
+        /**
+         * doInBackground performs the actual prepping of the request as well as the requesting
+         * and handling the responses, and  error handling
+         *
+         * @param strings
+         * @return
+         */
         @Override
         protected JSONObject doInBackground(String... strings) {
             String json = "";

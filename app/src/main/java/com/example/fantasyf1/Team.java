@@ -1,3 +1,10 @@
+/**
+ * Team.java
+ * An instance of Team represents a F1 Fantasy team. It consists of various methods and properties
+ * that reflect that of the players, team, budgeting, and neccesary information for the API.
+ * This class also impements a toJSON method that transforms this java object into its' JSON
+ * representation tha tis sent during modifications and creations for teams
+ */
 package com.example.fantasyf1;
 
 import org.json.JSONArray;
@@ -55,7 +62,8 @@ public class Team implements Serializable {
             userID = obj.getString("user_global_id");
             parentID = obj.getString("global_id");
 
-            score = obj.getDouble("score");
+            score = obj.optDouble("score", 0);
+            points = score;
             totalWeeklySubs = obj.getInt("total_num_weekly_subs");
             remainingWeeklySubs = obj.getInt("num_weekly_subs_remaining");
             value = obj.getDouble("team_value");

@@ -1,3 +1,9 @@
+/**
+ * CreateTeamActivity.java
+ * This is the parent activity for creating/modifying your teams. It is generally responsible
+ * for making the final api calls as well as some state mangement for the fragments during mount/dismount
+ *
+ */
 package com.example.fantasyf1;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,6 +74,11 @@ public class CreateTeamActivity extends AppCompatActivity implements APICallback
 
     private HashMap<Integer, Player> lut;
 
+    /**
+     * onCreate has two different cases for create and modify view, otherwise just sets the
+     * stage and preps the fragments to be used
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

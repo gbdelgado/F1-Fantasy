@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--activity_create_team.xml controls the static layout of the main page as well as defines
+the methods that should be called in the case of an event-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

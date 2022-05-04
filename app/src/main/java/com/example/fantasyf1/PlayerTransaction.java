@@ -1,10 +1,14 @@
+/**
+ * PlayerTransaction.java
+ * This class represents a player swap/addition to a team. This is really only here because the API
+ * requires us to send a list of players that were swapped in and out whenever we make a modification
+ * this provides an easy interface that we can use for all players across all teams. An instance
+ * of this class should exist in each instance of Team
+ */
 package com.example.fantasyf1;
 
 import org.json.JSONObject;
 
-/**
- *
- */
 public class PlayerTransaction {
     public int playerIDIn;
     public int playerIDOut;
